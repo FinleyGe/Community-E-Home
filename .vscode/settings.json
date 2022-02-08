@@ -1,0 +1,7 @@
+{
+    "go.languageServerExperimentalFeatures": {
+        "diagnostics": true,
+        "documentLink" : false,
+    },
+    "editor.links": false
+}
