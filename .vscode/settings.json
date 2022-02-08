@@ -3,5 +3,8 @@
         "diagnostics": true,
         "documentLink" : false,
     },
-    "editor.links": false
+    "editor.links": false,
+    "cSpell.words": [
+        "gorm"
+    ]
 }

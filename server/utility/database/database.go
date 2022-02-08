@@ -25,5 +25,6 @@ func DBInit() {
 		log.Fatalln("Database Error!", err)
 		os.Exit(-1)
 	}
+	// TODO : Auto Migrate here
 
 }
