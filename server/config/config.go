@@ -16,9 +16,15 @@ type database struct {
 type server struct {
 	Port string
 }
+
+type jwt struct {
+	Expires int
+	Issuer  string
+}
 type ConfigData struct {
 	Database database
 	Server   server
+	Jwt      jwt
 }
 
 var Config ConfigData
@@ -44,6 +50,10 @@ func ConfigInit() {
 		},
 		Server: server{
 			Port: config.GetString("server.port"),
+		},
+		Jwt: jwt{
+			Expires: config.GetInt("Jwt.expires"),
+			Issuer:  config.GetString("Jwt.issuer"),
 		},
 	}
 }
