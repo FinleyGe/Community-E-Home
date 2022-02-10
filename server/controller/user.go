@@ -1,16 +1,22 @@
 package controller
 
 import (
+	"fmt"
 	"home-server/model"
+	"home-server/utility"
 	"home-server/utility/database"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
 
 func Login(c *gin.Context) {
-	json := make(map[string]interface{})
-	c.BindJSON(json)
-	if (json["e-mail"] == "" && json["method"] == "0") || (json["phone"] == "" && json["method"] == "1") {
+	email := c.PostForm("email")
+	method := c.PostForm("method")
+	phone := c.PostForm("phone")
+	pwd := c.PostForm("pwd")
+	fmt.Println(email, method, phone, pwd)
+	if (email == "" && method == "0") || (phone == "" && method == "1") {
 		c.JSON(400,
 			gin.H{
 				"status": -100,
@@ -18,10 +24,10 @@ func Login(c *gin.Context) {
 		return
 	} else {
 		user := model.User{}
-		if json["method"] == "0" {
-			database.DB.Where("email = ?", json["e-mail"]).First(&user)
+		if method == "0" {
+			database.DB.Where("email = ?", email).First(&user)
 		} else {
-			database.DB.Where("phone = ?", json["phone"]).First(&user)
+			database.DB.Where("phone = ?", phone).First(&user)
 		}
 
 		if (model.User{} == user) {
@@ -30,15 +36,23 @@ func Login(c *gin.Context) {
 			})
 			return
 		} else {
-			if user.Pwd == json["pwd"] {
+			if user.Pwd == pwd {
 				// TODO OK here
 				// Get JWT
+				jwtData := utility.JwtData{
+					ID: strconv.Itoa(int(user.Id)),
+				}
+				jwt := utility.GenerateStandardJwt(&jwtData)
+				c.JSON(200, gin.H{
+					"status": 0,   // OK
+					"jwt":    jwt, //
+				})
+				return
 			} else {
 				c.JSON(406, gin.H{
 					"status": -2, // pwd wrong
 				})
 			}
 		}
-
 	}
 }

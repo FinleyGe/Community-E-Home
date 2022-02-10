@@ -11,7 +11,7 @@ method: `POST`
 params:
 ```json
 {
-    'e-mail' = string // 电子邮箱
+    'email' = string // 电子邮箱
     'phone' = string // 电话号
     // 注意上述两个字段只需要提供一个
     'method' = int

@@ -27,3 +27,21 @@ func GenerateStandardJwt(jwtData *JwtData) string {
 	}
 	return token
 }
+
+func ParseToken(token string) string {
+	jwtSecret := []byte(config.Config.Jwt.Secret)
+	tokenClaims, err := jwt.ParseWithClaims(token, &JwtData{}, func(token *jwt.Token) (interface{}, error) {
+		return jwtSecret, nil
+	})
+
+	if tokenClaims != nil {
+		if claims, ok := tokenClaims.Claims.(*JwtData); ok && tokenClaims.Valid {
+			return claims.ID
+		} else {
+			log.Fatalln("Jwt Error", ok)
+			panic(err)
+		}
+	}
+	log.Fatalln("Jwt Error", err)
+	panic(err)
+}

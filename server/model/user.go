@@ -5,6 +5,7 @@ type User struct {
 	Name      string
 	Pwd       string
 	Email     string
+	Phone     string
 	AvatarURL string
 	UserType  uint8
 	// 0 for volunteer
