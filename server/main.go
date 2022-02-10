@@ -4,11 +4,12 @@ import (
 	"home-server/config"
 	"home-server/router"
 	"home-server/utility/database"
+	"home-server/utility/server"
 )
 
 func main() {
-	// fmt.Println("Hello world")
 	config.ConfigInit()
 	database.DBInit()
 	router.RouterInit()
+	server.RunServer()
 }

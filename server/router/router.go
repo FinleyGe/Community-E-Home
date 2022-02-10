@@ -20,5 +20,5 @@ func AddCors() {
 }
 func RouterInit() {
 	AddCors()
-	Router.POST("/login", controller.Login)
+	Router.POST("/api/login", controller.Login)
 }

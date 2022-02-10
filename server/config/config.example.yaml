@@ -1,0 +1,14 @@
+database:
+  host    : ""
+  user    : ""
+  passport: ""
+  port    : 3306
+  name    : ""
+
+server:
+  port: "8989"
+
+jwt: 
+  expires : 48
+  issuer  : ""
+  secret : ""

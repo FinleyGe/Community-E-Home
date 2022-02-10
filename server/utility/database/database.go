@@ -3,8 +3,8 @@ package database
 import (
 	"fmt"
 	"home-server/config"
+	"home-server/model"
 	"log"
-	"os"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -23,8 +23,13 @@ func DBInit() {
 	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatalln("Database Error!", err)
-		os.Exit(-1)
+		panic(err)
 	}
-	// TODO : Auto Migrate here
+	// * : Auto Migrate here
+	err = DB.AutoMigrate(&model.User{})
+	if err != nil {
+		log.Fatalln("Database Error!", err)
+		panic(err)
+	}
 
 }

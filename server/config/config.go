@@ -20,6 +20,7 @@ type server struct {
 type jwt struct {
 	Expires int
 	Issuer  string
+	Secret  string
 }
 type ConfigData struct {
 	Database database
@@ -54,6 +55,7 @@ func ConfigInit() {
 		Jwt: jwt{
 			Expires: config.GetInt("Jwt.expires"),
 			Issuer:  config.GetString("Jwt.issuer"),
+			Secret:  config.GetString("Jwt.secret"),
 		},
 	}
 }
