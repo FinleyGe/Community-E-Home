@@ -19,6 +19,7 @@ func AddCors() {
 	config.AllowAllOrigins = true
 	Router.Use(cors.New(config))
 }
+
 func RouterInit() {
 	AddCors()
 	Router.POST("/api/login", controller.Login)

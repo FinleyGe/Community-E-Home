@@ -1,0 +1,10 @@
+{
+    "recommendations": [
+        "aaron-bond.better-comments",
+        "coenraads.bracket-pair-colorizer",
+        "ms-ceintl.vscode-language-pack-zh-hans",
+        "cweijan.vscode-mysql-client2",
+        "gruntfuggly.todo-tree",
+        "redhat.vscode-yaml"
+    ]
+}
