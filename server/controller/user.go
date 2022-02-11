@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"home-server/model"
 	"home-server/utility"
 	"home-server/utility/database"
@@ -107,4 +108,15 @@ func Register(c *gin.Context) {
 			})
 		}
 	}
+}
+
+type TestAPI struct {
+	Jwt string `json:"jwt"`
+}
+
+func Test(c *gin.Context) {
+	test := TestAPI{}
+	c.ShouldBind(&test)
+	fmt.Println(test.Jwt)
+	fmt.Println(utility.ParseToken(test.Jwt))
 }
