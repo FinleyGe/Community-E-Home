@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"home-server/model"
 	"home-server/utility"
 	"home-server/utility/database"
@@ -10,13 +9,31 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type UserAPI struct {
+	Email string `json:"email"`
+	Phone string `json:"phone"`
+	Pwd   string `json:"pwd"`
+}
+
+type LoginAPI struct {
+	UserAPI
+	Method string `json:"method"`
+}
+type RegisterAPI struct {
+	UserAPI
+	Type string `json:"type"`
+}
+
 func Login(c *gin.Context) {
-	email := c.PostForm("email")
-	method := c.PostForm("method")
-	phone := c.PostForm("phone")
-	pwd := c.PostForm("pwd")
-	fmt.Println(email, method, phone, pwd)
-	if (email == "" && method == "0") || (phone == "" && method == "1") {
+	// Should use ShouldBindJson instead of PostForm.
+	api := LoginAPI{}
+	c.ShouldBind(&api)
+	// email := c.PostForm("email")
+	// method := c.PostForm("method")
+	// phone := c.PostForm("phone")
+	// pwd := c.PostForm("pwd")
+	// fmt.Println(email, method, phone, pwd)
+	if (api.Email == "" && api.Method == "0") || (api.Phone == "" && api.Method == "1") {
 		c.JSON(400,
 			gin.H{
 				"status": -100,
@@ -24,10 +41,10 @@ func Login(c *gin.Context) {
 		return
 	} else {
 		user := model.User{}
-		if method == "0" {
-			database.DB.Where("email = ?", email).First(&user)
+		if api.Method == "0" {
+			database.DB.Where("email = ?", api.Email).First(&user)
 		} else {
-			database.DB.Where("phone = ?", phone).First(&user)
+			database.DB.Where("phone = ?", api.Phone).First(&user)
 		}
 
 		if (model.User{} == user) {
@@ -36,8 +53,7 @@ func Login(c *gin.Context) {
 			})
 			return
 		} else {
-			if user.Pwd == pwd {
-				// TODO OK here
+			if user.Pwd == api.Pwd {
 				// Get JWT
 				jwtData := utility.JwtData{
 					ID: strconv.Itoa(int(user.Id)),
@@ -53,6 +69,42 @@ func Login(c *gin.Context) {
 					"status": -2, // pwd wrong
 				})
 			}
+		}
+	}
+}
+
+func Register(c *gin.Context) {
+	API := RegisterAPI{}
+	c.ShouldBind(&API)
+	user := model.User{}
+	database.DB.
+		Where("email = ?", API.Email).
+		Or("phone = ?", API.Phone).First(&user)
+	if (user != model.User{}) {
+		c.JSON(406, gin.H{
+			"status": -1, // exist
+		})
+	} else {
+		user.Pwd = API.Pwd
+		user.Email = API.Email
+		user.Phone = API.Phone
+		t, err := strconv.Atoi(API.Type)
+		if err != nil {
+			c.JSON(400, gin.H{
+				"status": -100, // other error
+			})
+		}
+		user.Type = uint8(t)
+
+		e := database.DB.Create(&user)
+		if e.Error != nil {
+			c.JSON(500, gin.H{
+				"status": -100, // other error
+			})
+		} else {
+			c.JSON(200, gin.H{
+				"status": 0, //OK
+			})
 		}
 	}
 }

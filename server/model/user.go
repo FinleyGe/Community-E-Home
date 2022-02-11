@@ -7,8 +7,7 @@ type User struct {
 	Email     string
 	Phone     string
 	AvatarURL string
-	UserType  uint8
+	Type      uint8
 	// 0 for volunteer
 	// 1 for elder
-
 }

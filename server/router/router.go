@@ -21,4 +21,5 @@ func AddCors() {
 func RouterInit() {
 	AddCors()
 	Router.POST("/api/login", controller.Login)
+	Router.POST("/api/register", controller.Register)
 }
