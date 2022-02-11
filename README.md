@@ -5,16 +5,15 @@
 1. 配置`mysql`服务器，*建议*安装mysql的可视化工具。
 2. 在你的某个目录下，通过shell执行： 
    `git clone git@github.com:FinleyGe/Community-E-Home.git`
-3. `cd Community-E-Home/server`
-4. `cd /config`
-5. 复制`config.example.yaml`为副本`config.yaml`
+3. `cd Community-E-Home/server/config`
+4. 复制`config.example.yaml`为副本`config.yaml`
    `cp config.example.yaml config.yaml`
-6. 使用文本编辑器编辑
-7. `cd ..`
-8. `go mod tidy`
-9. `go get`
-10. `go run main.go`
-11. 则服务器将运行于你所设定的端口上
+5. 使用文本编辑器编辑
+6. `cd ..`
+7. `go mod tidy`
+8. `go get`
+9.  `go run main.go`
+10. 则服务器将运行于你所设定的端口上
 
 ## API 接口文档
 
