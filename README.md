@@ -62,7 +62,7 @@ return values:
 }
 ```
 
-### 2. [请求] 注册 (未实现)
+### 2. [请求] 注册
 url: `/api/register`
 method : `POST`
 params:
@@ -89,14 +89,24 @@ return values:
 
 注：注册不包括登陆，请注册完毕后再调用登陆API。
 
-### 3. 获取用户信息 (未实现)
+### 3. 获取用户信息 为实现
 url: `/api/user`
 method: `GET`
 params:
-```json
+不需要传入参数
+
+return values:
+```
 {
-    "email" : string,   // 电子邮箱 
-    "phone" : string    // 电话号码
-    // 上述两项只传一项即可
+    "status"        : int, 
+    // 返回值        意义
+    // 0            success
+    // -100         其他错误
+    "name"          : string,
+    "email"         : string,
+    "phone"         : string,
+    "avatar_url"    : string,
+    "type"          : int,
+    "profile"       : string,
 }
 ```

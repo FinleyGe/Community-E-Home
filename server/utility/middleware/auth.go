@@ -41,6 +41,7 @@ func Auth(c *gin.Context) {
 			c.Abort()
 			return
 		} else {
+			c.Set("id", id)
 			c.Next()
 		}
 	}

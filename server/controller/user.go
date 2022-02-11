@@ -120,3 +120,24 @@ func Test(c *gin.Context) {
 	fmt.Println(test.Jwt)
 	fmt.Println(utility.ParseToken(test.Jwt))
 }
+
+func UserInfo(c *gin.Context) {
+	id, _ := c.Get("id")
+	user := model.User{}
+	database.DB.Where("id = ?", id).First(&user)
+	if (user == model.User{}) {
+		c.JSON(404, gin.H{
+			"status": -100,
+		})
+	} else {
+		c.JSON(200, gin.H{
+			"status":     0,
+			"name":       user.Name,
+			"email":      user.Email,
+			"phone":      user.Phone,
+			"avatar_url": user.AvatarURL,
+			"type":       user.Type,
+			"profile":    user.Profile,
+		})
+	}
+}
