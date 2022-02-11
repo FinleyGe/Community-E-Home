@@ -2,18 +2,19 @@
 ## 使用后端代码进行调试
 (下述Shell指令为 Linux Shell)
 0. 配置好 `Golang` 环境
-1. 配置`mysql`服务器，*建议*安装mysql的可视化工具。
-2. 在你的某个目录下，通过shell执行： 
+1. 配置`mysql`服务器，*建议*安装mysql的可视化工具(或者使用vscode 并安装本项目推荐拓展)。
+2. 建议使用 `vscode` 作为 IDE 本项目提供数个 `拓展建议`
+3. 在你的某个目录下，通过shell执行： 
    `git clone git@github.com:FinleyGe/Community-E-Home.git`
-3. `cd Community-E-Home/server/config`
-4. 复制`config.example.yaml`为副本`config.yaml`
+4. `cd Community-E-Home/server/config`
+5. 复制`config.example.yaml`为副本`config.yaml`
    `cp config.example.yaml config.yaml`
-5. 使用文本编辑器编辑
-6. `cd ..`
-7. `go mod tidy`
-8. `go get`
-9.  `go run main.go`
-10. 则服务器将运行于你所设定的端口上
+6. 使用文本编辑器编辑
+7. `cd ..`
+8. `go mod tidy`
+9.  `go get`
+10. `go run main.go`
+11. 则服务器将运行于你所设定的端口上
 
 ## API 接口文档
 
