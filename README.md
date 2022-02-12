@@ -35,7 +35,7 @@
 url: `/api/login`
 method: `POST`
 params:
-```json
+```
 {
     'email' = string, // 电子邮箱
     'phone' = string, // 电话号
@@ -90,7 +90,7 @@ return values:
 
 注：注册不包括登陆，请注册完毕后再调用登陆API。
 
-### 3. 获取用户信息 为实现
+### 3. 获取用户信息
 url: `/api/user`
 method: `GET`
 params:
