@@ -5,6 +5,14 @@
         "ms-ceintl.vscode-language-pack-zh-hans",
         "cweijan.vscode-mysql-client2",
         "gruntfuggly.todo-tree",
-        "redhat.vscode-yaml"
+        "redhat.vscode-yaml",
+        "johnsoncodehk.volar",
+        "misterj.vue-volar-extention-pack",
+        "wscats.vue",
+        "hollowtree.vue-snippets",
+        "ms-vscode.vscode-typescript-tslint-plugin",
+        "esbenp.prettier-vscode",
+        "christian-kohler.path-intellisense",
+        "techer.open-in-browser"
     ]
 }
