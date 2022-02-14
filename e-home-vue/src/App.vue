@@ -1,12 +1,17 @@
 <script setup lang="ts">
 import { RouterView, useRouter, useRoute } from 'vue-router';
 import {NConfigProvider, zhCN, dateZhCN, NSpace, NLayout, NLayoutHeader,
-        NGrid, NGi, NButton} from 'naive-ui';
+        NGrid, NGi, NButton, NLayoutContent} from 'naive-ui';
 import avatar from './components/Avatar.vue'
-const router = useRouter;
-const route = useRoute;
+const router = useRouter();
+const route = useRoute();
 function clickAvatar() {
-  // todo: unfinished.
+  router.push({path:'/login'})
+}
+function clickTitle() {
+  router.push({
+    path : '/test',
+  })
 }
 
 </script>
@@ -17,13 +22,18 @@ function clickAvatar() {
       <n-layout>
         <n-layout-header>
           <n-grid :x-gap="12" item-responsive responsive="screen">
-            <n-gi span="4">
-
+            <n-gi span="10 l:4">
+            <div class="title" @click.native="clickTitle">
+              <h1> 社区 E 家 </h1> 
+            </div>
             </n-gi>
-            <n-gi span="16">
-              <h1> 社区 E 家 </h1>
+            <n-gi span="6 l:15">
+              <n-space>
+                <menu>
+                </menu>
+              </n-space>
             </n-gi>
-            <n-gi span="4">
+            <n-gi span="5">
             <avatar avatar-url="/favicon.ico" username="未登陆" @click.native="clickAvatar"/>
             </n-gi>
           </n-grid>
@@ -37,4 +47,8 @@ function clickAvatar() {
 </template>
 
 <style>
+.title {
+  background: rgb(121, 121, 243);
+  cursor: pointer;
+}
 </style>

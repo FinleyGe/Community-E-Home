@@ -2,6 +2,6 @@
 
 </script>
 <template>
-    
+    Index
 </template>
 <script></script>

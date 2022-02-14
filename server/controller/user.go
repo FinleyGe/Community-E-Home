@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"home-server/model"
 	"home-server/utility"
 	"home-server/utility/database"
@@ -115,10 +114,13 @@ type TestAPI struct {
 }
 
 func Test(c *gin.Context) {
-	test := TestAPI{}
-	c.ShouldBind(&test)
-	fmt.Println(test.Jwt)
-	fmt.Println(utility.ParseToken(test.Jwt))
+	// test := TestAPI{}
+	// c.ShouldBind(&test)
+	// fmt.Println(test.Jwt)
+	// fmt.Println(utility.ParseToken(test.Jwt))
+	c.JSON(200, gin.H{
+		"msg": "something",
+	})
 }
 
 func UserInfo(c *gin.Context) {
