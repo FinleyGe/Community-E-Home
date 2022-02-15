@@ -3,7 +3,7 @@
 import { NForm, NFormItem, NInput, NSelect, NButton} from 'naive-ui';
 import {reactive} from 'vue'
 import axios from 'axios';
-
+import config from '../config'
 const user = reactive({
     name            : '',
     pwd             : '',
@@ -27,7 +27,15 @@ const options = [
 
 function registerClick() {
     // axios.post('localhost:8989/api/register')
-    axios.get('http://0.0.0.0:8989/api/test').then(res => {console.log(res)})
+    // axios.get('http://0.0.0.0:8989/api/test').then(res => {console.log(res)})
+    // TODO: is data valid
+    const data = {
+        email : user.email,
+        pwd : user.pwd,
+        phone : user.phone,
+        name : user.name,
+    }
+    axios.post(config.SERVER + '/api/register', data).then(res => {console.log(res)})
 }
 
 </script>
