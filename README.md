@@ -91,7 +91,7 @@ return values:
 注：注册不包括登陆，请注册完毕后再调用登陆API。
 
 ### 3. 获取用户信息
-url: `/api/user`
+url: `/api/userinfo`
 method: `GET`
 params:
 不需要传入参数
@@ -111,3 +111,28 @@ return values:
     "profile"       : string,
 }
 ```
+
+### 4. 修改用户信息
+**需要用户认证**
+url : `/api/useredit`
+method : `POST`
+params:
+```
+{
+    "name" : string,  // 用户名
+    "email" : string,  // 电子邮件
+    "phone" : string,  // 电话号
+    "profile" : string  // 简介
+}
+```
+
+return values:
+```
+{
+    "message" : ok/ wrong request/ server error
+}
+```
+200 for ok
+400 for wrong request
+500 for server error
+注意：头像地址需要上传头像后获得。
