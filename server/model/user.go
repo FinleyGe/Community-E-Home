@@ -12,3 +12,9 @@ type User struct {
 	// 1 for elder
 	Profile string
 }
+
+type UserTask struct {
+	// 存储 User 和 Task 之关系
+	Uid    uint
+	TaskId uint
+}

@@ -26,10 +26,9 @@ func DBInit() {
 		panic(err)
 	}
 	// * : Auto Migrate here
-	err = DB.AutoMigrate(&model.User{})
+	err = DB.AutoMigrate(&model.User{}, &model.Task{})
 	if err != nil {
 		log.Fatalln("Database Error!", err)
 		panic(err)
 	}
-
 }

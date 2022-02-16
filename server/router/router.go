@@ -31,4 +31,9 @@ func RouterInit() {
 	Router.GET("/api/user/info", middleware.Auth, controller.UserInfo)
 	Router.POST("/api/user/edit", middleware.Auth, controller.EditUserInfo)
 	Router.POST("/api/upload/avatar", middleware.Auth, controller.UploadAvatar)
+	Router.POST("/api/task/new", middleware.Auth, middleware.IsElder, controller.NewTask)
+	// TODO : 获取任务列表
+	Router.GET("/api/task/list", controller.GetTaskList)
+	// TODO : 通过特定条件检索任务
+	// TODO : 接受任务
 }
