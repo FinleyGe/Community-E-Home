@@ -4,6 +4,7 @@ import (
 	"home-server/model"
 	"home-server/utility"
 	"home-server/utility/database"
+	"log"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -142,4 +143,37 @@ func UserInfo(c *gin.Context) {
 			"profile":    user.Profile,
 		})
 	}
+}
+
+func EditUserInfo(c *gin.Context) {
+	user := model.User{}
+	c.ShouldBind(&user)
+
+	id, _ := c.Get("id")
+	rawUser := model.User{}
+	database.DB.Where("id = ?", id).First(&rawUser)
+	rawUser.Profile = user.Profile
+	rawUser.Email = user.Email
+	rawUser.Name = user.Name
+	rawUser.Phone = user.Phone
+	database.DB.Save(&rawUser)
+	c.JSON(200, gin.H{
+		"message": "ok",
+	})
+}
+
+func UploadAvatar(c *gin.Context) {
+	file, _ := c.FormFile("avatar")
+	id, _ := c.Get("id")
+	if err := c.SaveUploadedFile(file, "../upload"+id.(string)); err != nil {
+		log.Fatalln("Save uploaded file error:", err)
+		c.JSON(500, gin.H{
+			"message": "server error",
+		})
+		return
+	}
+	database.DB.Model(model.User{}).Where("id = ?", id).Update("avatarUrl", "/upload/"+id.(string))
+	c.JSON(200, gin.H{
+		"avatar_url": "/upload/" + id.(string),
+	})
 }

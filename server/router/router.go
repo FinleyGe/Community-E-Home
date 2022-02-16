@@ -3,6 +3,7 @@ package router
 import (
 	"home-server/controller"
 	"home-server/utility/middleware"
+	"net/http"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -21,9 +22,13 @@ func AddCors() {
 }
 
 func RouterInit() {
-	AddCors()
+	AddCors() // 跨域
+	// 设置
+	Router.StaticFS("../upload", http.Dir("upload"))
 	Router.POST("/api/login", controller.Login)
 	Router.POST("/api/register", controller.Register)
 	Router.GET("/api/test", controller.Test)
-	Router.GET("/api/userinfo", middleware.Auth, controller.UserInfo)
+	Router.GET("/api/user/info", middleware.Auth, controller.UserInfo)
+	Router.POST("/api/user/edit", middleware.Auth, controller.EditUserInfo)
+	Router.POST("/api/upload/avatar", middleware.Auth, controller.UploadAvatar)
 }

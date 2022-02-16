@@ -1,1 +1,4 @@
+# 配置文件不可上传
 server/config/config.yaml
+# 静态文件上传文件夹忽略
+server/upload/*.*

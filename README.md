@@ -91,7 +91,7 @@ return values:
 注：注册不包括登陆，请注册完毕后再调用登陆API。
 
 ### 3. 获取用户信息
-url: `/api/userinfo`
+url: `/api/user/info`
 method: `GET`
 params:
 不需要传入参数
@@ -114,7 +114,7 @@ return values:
 
 ### 4. 修改用户信息
 **需要用户认证**
-url : `/api/useredit`
+url : `/api/user/edit`
 method : `POST`
 params:
 ```
@@ -135,4 +135,15 @@ return values:
 200 for ok
 400 for wrong request
 500 for server error
-注意：头像地址需要上传头像后获得。
+
+
+### 5. 上传头像
+注意和修改用户信息不同，上传头像是另外的。
+上传头像后，原头像不保留。
+
+url: `/api/upload/avatar`
+使用Post File 方式传文件
+返回文件的相对地址，可以访问。
+
+### 6. 发布志愿
+
