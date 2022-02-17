@@ -16,6 +16,7 @@ type User struct {
 
 type UserTask struct {
 	// 存储 User 和 Task 之关系
+	Model
 	Uid    uint
 	TaskId uint
 }

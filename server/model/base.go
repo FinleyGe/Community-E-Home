@@ -5,7 +5,7 @@ import (
 )
 
 type Model struct {
-	ID        uint `gorm:"primarykey"`
+	ID        uint `gorm:"primarykey" json:"id"`
 	CreatedAt utility.Time
 	UpdatedAt utility.Time
 	DeletedAt utility.Time

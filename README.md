@@ -188,5 +188,20 @@ method : `GET`
 
 
 ### 8. 接受任务
+url : `/api/task/accept`
+method : `GET`
+**需要认证**
+params : 
+```
+{
+    id : int, // 任务id
+}
+```
 
+return :
+```
+{
+    "message" : string // 返回信息
+}
+```
 ### 9. 完成任务

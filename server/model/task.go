@@ -13,4 +13,5 @@ type Task struct {
 	TimeStart utility.Time `json:"time_start"`
 	TimeEnd   utility.Time `json:"time_end"`
 	IssuerId  uint         `json:"issuer_id"`
+	Success   bool         `json:"success"`
 }

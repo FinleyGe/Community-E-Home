@@ -30,3 +30,25 @@ func GetTaskList(c *gin.Context) {
 		"tasks": api.models,
 	})
 }
+
+func AcceptTask(c *gin.Context) {
+	uid := uint(c.GetInt("id"))
+	task := model.Task{}
+	userTask := model.UserTask{
+		Uid:    uid,
+		TaskId: task.ID,
+	}
+	c.ShouldBind(&task)
+	if task.Accept == task.Require {
+		c.JSON(400, gin.H{
+			"message": "人数已满",
+		})
+	} else {
+		task.Accept++
+		database.DB.Create(&userTask)
+		database.DB.Save(&task)
+		c.JSON(200, gin.H{
+			"message": "ok",
+		})
+	}
+}
