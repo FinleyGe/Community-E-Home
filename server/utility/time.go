@@ -29,8 +29,8 @@ func (t *Time) UnmarshalJSON(b []byte) error {
 	str := string(b)
 	timeStr := strings.Trim(str, "\"")
 	tl, err := time.Parse("2006-01-02 15:04:05", timeStr)
-	fmt.Println(timeStr)
-	fmt.Println(tl)
+	// fmt.Println(timeStr)
+	// fmt.Println(tl)
 	t.Time = tl
 	return err
 }
@@ -44,6 +44,7 @@ func (t Time) Value() (driver.Value, error) {
 }
 
 func (t *Time) Scan(v interface{}) error {
+	// fmt.Println(v)
 	value, ok := v.(time.Time)
 	if ok {
 		*t = Time{Time: value}

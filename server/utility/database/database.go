@@ -13,7 +13,7 @@ import (
 var DB *gorm.DB
 
 func DBInit() {
-	dsn := fmt.Sprintf("%v:%v@tcp(%v:%v)/%v",
+	dsn := fmt.Sprintf("%v:%v@tcp(%v:%v)/%v?charset=utf8mb4&parseTime=True&loc=Local",
 		config.Config.Database.User,
 		config.Config.Database.Passport,
 		config.Config.Database.Host,

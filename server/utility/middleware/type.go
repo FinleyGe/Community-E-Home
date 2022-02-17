@@ -18,7 +18,7 @@ func IsElder(c *gin.Context) {
 	database.DB.Where("id = ?", id).Select("type").First(&user)
 	// user := userType{}
 	fmt.Println(user.Type)
-	if user.Type == 1 {
+	if user.Type == 1 || user.Type == 2 {
 		c.Next()
 	} else {
 		c.JSON(406, gin.H{"message": "Wrong user type"})

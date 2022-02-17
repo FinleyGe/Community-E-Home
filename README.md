@@ -146,13 +146,42 @@ url: `/api/upload/avatar`
 返回文件的相对地址，可以访问。
 
 ### 6. 发布任务
-<!-- TODO -->
+url: `/api/task/new`
+`method: `POST`
+**需要用户认证**
+params:
+```
+{
+    "content": string, // 任务内容
+    "address": string, // 任务地点
+    "require": int // 需要人数
+    "time_start" : string  // 开始时间
+    "time_end" : string     // 结束时间
+    // 时间格式： 注意！必须使用规定的时间格式：
+    // "2020-01-01 15:00:00"
+}
+```
 
-### 7. 接受任务
-<!-- TODO -->
-### 8. 获得任务信息
-<!-- TODO -->
-
-### 9. Get User by Id Simply
-简单返回用户信息 用于查询其他用户的信息
-<!-- TODO -->
+### 7. 获取全部任务列表
+url: `/api/task/list`
+method : `GET`
+不需要参数
+返回
+```
+{
+    "tasks":[
+        {
+            "ID" : int, //任务id
+            "CreatedAt": string, //时间
+            "content" : string ,//  任务内容
+            "address" : string, //地址
+            "require" : int //需要人数
+            "accept" : 接受人数
+            "time_start" : string // 开始时间
+            "time_end" : string // 结束时间
+            // 时间格式同上
+            "issuer_id": int // 发起人id
+        }
+    ]
+}
+```

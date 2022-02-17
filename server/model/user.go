@@ -10,6 +10,7 @@ type User struct {
 	Type      uint8
 	// 0 for volunteer
 	// 1 for elder
+	// 2 for Admin
 	Profile string
 }
 
