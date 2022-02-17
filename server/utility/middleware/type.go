@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"fmt"
 	"home-server/model"
 	"home-server/utility/database"
 
@@ -17,8 +16,20 @@ func IsElder(c *gin.Context) {
 	user := model.User{}
 	database.DB.Where("id = ?", id).Select("type").First(&user)
 	// user := userType{}
-	fmt.Println(user.Type)
+	// fmt.Println(user.Type)
 	if user.Type == 1 || user.Type == 2 {
+		c.Next()
+	} else {
+		c.JSON(406, gin.H{"message": "Wrong user type"})
+		c.Abort()
+	}
+}
+
+func IsVolunteer(c *gin.Context) {
+	id := c.GetString("id")
+	user := model.User{}
+	database.DB.Where("id = ?", id).Select("type").First(&user)
+	if user.Type == 0 || user.Type == 2 {
 		c.Next()
 	} else {
 		c.JSON(406, gin.H{"message": "Wrong user type"})
