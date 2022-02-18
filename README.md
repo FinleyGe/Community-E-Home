@@ -176,7 +176,7 @@ method : `GET`
             "content" : string ,//  任务内容
             "address" : string, //地址
             "require" : int //需要人数
-            "accept" : 接受人数
+            "accept" : // 已经接受人数
             "time_start" : string // 开始时间
             "time_end" : string // 结束时间
             // 时间格式同上
