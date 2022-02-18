@@ -49,6 +49,10 @@ function registerClick() {
         <n-input v-model:value="user.email" placeholder="输入电子邮件地质"/>
     </n-form-item>
     
+    <n-form-item label="电话号码" path="user.phone">
+        <n-input v-model:value="user.phone" placeholder="输入电话号码"/>
+    </n-form-item>
+    
     <n-form-item label="密码" path="user.pwd">
         <n-input v-model:value="user.pwd" placeholder="输入密码"/>
     </n-form-item>
