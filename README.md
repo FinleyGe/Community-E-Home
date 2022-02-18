@@ -205,3 +205,17 @@ return :
 }
 ```
 ### 9. 完成任务
+
+### 10. 邮箱验证
+URL: `/api/user/vertify`
+method: `GET`
+获取邮箱验证码
+
+### 11. 验证码验证
+URL:`/api/user/vertify` //同上
+method: `POST`
+```
+{
+    "vertify_code": // 6位邮箱验证码
+}
+```

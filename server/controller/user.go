@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"home-server/model"
 	"home-server/utility"
 	"home-server/utility/database"
@@ -96,7 +97,7 @@ func Register(c *gin.Context) {
 			})
 		}
 		user.Type = uint8(t)
-
+		user.Valid = false
 		e := database.DB.Create(&user)
 		if e.Error != nil {
 			c.JSON(500, gin.H{
@@ -176,4 +177,38 @@ func UploadAvatar(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"avatar_url": "/upload/" + id.(string),
 	})
+}
+
+func SendEmail(c *gin.Context) {
+	id := c.GetInt("id")
+	userEmail := model.UserEmail{}
+	user := model.User{}
+	user.Id = uint(id)
+	database.DB.Where("id = ?", id).First(&user)
+	userEmail.VertifyCode = utility.SendEmail(user.Email)
+	userEmail.Uid = uint(id)
+	database.DB.Create(&userEmail)
+	c.JSON(200, gin.H{
+		"message": "Email Sent",
+	})
+}
+
+func VertifyEmail(c *gin.Context) {
+	id := uint(c.GetInt("id"))
+	fmt.Println(c.GetInt("id"))
+	userEmail := model.UserEmail{}
+	c.ShouldBind(&userEmail) // vertify_code
+	database.DB.Find(&userEmail)
+	if userEmail.Uid == id {
+		// ok
+		database.DB.Model(model.User{}).Where("id = ?", id).Update("valid", true)
+		database.DB.Delete(&userEmail)
+		c.JSON(200, gin.H{
+			"message": "vertify success",
+		})
+	} else {
+		c.JSON(400, gin.H{
+			"message": "vertify error",
+		})
+	}
 }

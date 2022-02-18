@@ -6,6 +6,8 @@
     "editor.links": false,
     "cSpell.words": [
         "axios",
-        "gorm"
+        "gomail",
+        "gorm",
+        "vcode"
     ]
 }

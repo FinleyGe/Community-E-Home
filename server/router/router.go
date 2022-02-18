@@ -27,7 +27,7 @@ func RouterInit() {
 	Router.StaticFS("../upload", http.Dir("upload"))
 	Router.POST("/api/login", controller.Login)
 	Router.POST("/api/register", controller.Register)
-	Router.GET("/api/test", controller.Test)
+	Router.GET("/api/test", controller.SendEmail)
 	Router.GET("/api/user/info", middleware.Auth, controller.UserInfo)
 	Router.POST("/api/user/edit", middleware.Auth, controller.EditUserInfo)
 	Router.POST("/api/upload/avatar", middleware.Auth, controller.UploadAvatar)
@@ -36,4 +36,7 @@ func RouterInit() {
 	Router.GET("/api/task/list", controller.GetTaskList)
 	// TODO : 通过特定条件检索任务
 	// TODO : 接受任务
+	Router.GET("/api/user/vertify", middleware.EmailVertify, controller.SendEmail)
+	Router.POST("/api/user/vertify", middleware.EmailVertify, controller.VertifyEmail)
+
 }
