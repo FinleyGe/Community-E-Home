@@ -4,20 +4,6 @@
       "assignedTo": {
         "name": "Finley"
       },
-      "creation_time": "2022-02-18T13:43:13.231Z",
-      "description": {
-        "content": "把几个写死的常量提取出来，写入config文件。",
-        "mime": "text/markdown"
-      },
-      "id": "1",
-      "prio": 0,
-      "references": [],
-      "title": "封装写好的Email验证"
-    },
-    {
-      "assignedTo": {
-        "name": "Finley"
-      },
       "creation_time": "2022-02-18T13:44:12.483Z",
       "id": "2",
       "prio": 0,
@@ -27,5 +13,20 @@
   ],
   "in-progress": [],
   "testing": [],
-  "done": []
+  "done": [
+    {
+      "assignedTo": {
+        "name": "Finley"
+      },
+      "creation_time": "2022-02-18T13:43:13.231Z",
+      "description": {
+        "content": "把几个写死的常量提取出来，写入config文件。",
+        "mime": "text/markdown"
+      },
+      "id": "1",
+      "prio": 0,
+      "references": [],
+      "title": "封装写好的Email验证"
+    }
+  ]
 }

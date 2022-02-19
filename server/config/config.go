@@ -22,10 +22,18 @@ type jwt struct {
 	Issuer  string
 	Secret  string
 }
+
+type email struct {
+	Sender   string
+	Pwd      string
+	SmtpAddr string
+	SmtpPort int
+}
 type ConfigData struct {
 	Database database
 	Server   server
 	Jwt      jwt
+	Email    email
 }
 
 var Config ConfigData
@@ -56,6 +64,12 @@ func ConfigInit() {
 			Expires: config.GetInt("Jwt.expires"),
 			Issuer:  config.GetString("Jwt.issuer"),
 			Secret:  config.GetString("Jwt.secret"),
+		},
+		Email: email{
+			Sender:   config.GetString("email.sender"),
+			Pwd:      config.GetString("email.pwd"),
+			SmtpAddr: config.GetString("email.smtpAddr"),
+			SmtpPort: config.GetInt("email.smtpPort"),
 		},
 	}
 }

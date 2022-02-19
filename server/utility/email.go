@@ -2,6 +2,7 @@ package utility
 
 import (
 	"fmt"
+	"home-server/config"
 	"log"
 	"math/rand"
 	"time"
@@ -36,10 +37,10 @@ func SendEmail(target string) string {
 	//这里支持群发，只需填写多个人的邮箱即可，我这里发送人使用的是QQ邮箱，所以接收人也必须都要是
 	//QQ邮箱
 	mailConf.RecipientList = []string{target}
-	mailConf.Sender = `1227519153@qq.com`
+	mailConf.Sender = config.Config.Email.Sender
 
 	//这里QQ邮箱要填写授权码，网易邮箱则直接填写自己的邮箱密码，授权码获得方法在下面
-	mailConf.SPassword = "upoxmpsathwqffhj"
+	mailConf.SPassword = config.Config.Email.Pwd
 
 	//下面是官方邮箱提供的SMTP服务地址和端口
 	// QQ邮箱：SMTP服务器地址：smtp.qq.com（端口：587）
@@ -48,8 +49,8 @@ func SendEmail(target string) string {
 	// 126邮箱: SMTP服务器地址：smtp.126.com（端口：25）
 	// 新浪邮箱: SMTP服务器地址：smtp.sina.com（端口：25）
 
-	mailConf.SMTPAddr = `smtp.qq.com`
-	mailConf.SMTPPort = 25
+	mailConf.SMTPAddr = config.Config.Email.SmtpAddr
+	mailConf.SMTPPort = config.Config.Email.SmtpPort
 
 	//产生六位数验证码
 	rnd := rand.New(rand.NewSource(time.Now().UnixNano()))
