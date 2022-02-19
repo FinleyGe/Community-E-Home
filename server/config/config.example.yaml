@@ -12,3 +12,9 @@ jwt:
   expires : 48
   issuer  : ""
   secret : ""
+
+email:
+  sender: ""
+  pwd: ""
+  smtpAddr : "smtp.qq.com"
+  smtpPort : 25
