@@ -185,6 +185,7 @@ func SendEmail(c *gin.Context) {
 	user := model.User{}
 	user.Id = uint(id)
 	database.DB.Where("id = ?", id).First(&user)
+	// ? Maybe using goroutine is better for next line ?
 	userEmail.VertifyCode = utility.SendEmail(user.Email)
 	userEmail.Uid = uint(id)
 	database.DB.Create(&userEmail)

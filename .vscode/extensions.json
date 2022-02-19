@@ -13,6 +13,7 @@
         "ms-vscode.vscode-typescript-tslint-plugin",
         "esbenp.prettier-vscode",
         "christian-kohler.path-intellisense",
-        "techer.open-in-browser"
+        "techer.open-in-browser",
+        "mkloubert.vscode-kanban"
     ]
 }
