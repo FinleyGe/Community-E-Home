@@ -1,0 +1,30 @@
+{
+    
+    "workbench.editorAssociations": {
+        "*.ipynb": "jupyter-notebook",
+        "*.exe": "default"
+    },
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "notebook.cellToolbarLocation": {
+        "default": "right",
+        "jupyter-notebook": "left"
+    },
+    "files.exclude": {
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true
+    },
+    "code-runner.runInTerminal": true,
+    "code-runner.saveAllFilesBeforeRun": true,
+    "extensions.autoCheckUpdates": false,
+    "launch": {
+        "configurations": [
+        
+        ]
+    }
+    //"rust-client.rustupPath": "$HOME/.cargo/bin/rustup",
+    //"rust-client.rustupPath": "$HOME/.cargo/bin/rustup",
+}
+
