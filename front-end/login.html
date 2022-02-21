@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+  <title>登陆</title>
+</head>
+
+<body style="background-image: url();">
+  <div style="width: 70%; margin: 0 auto; padding-top: 20em;padding-bottom: 20em;">
+    <div class="ui stackable centered column grid">
+      <div class="centered row">
+        <div class="six wide column">
+          <div style="padding-bottom: 5em; background-color: rgba(245, 245, 245, 0.5);" class="ui segment">
+            <form action="/login/" method="POST" class="ui form">
+              <h3 style="color:  #1890ff; text-align:center;">用户登录</h3>
+              <div class="field">
+                <label for="username">账号：</label>
+                <input type="text" name="username" id="username" placeholder="请输入手机号或邮箱" >
+              </div>
+              <div class="field">
+                <label for="password">密码：</label>
+                <input type="password" name="password" id="password" placeholder="请输入密码">
+              </div>
+              <input style="float: right;" class="ui inverted green button" type="submit" value="登陆">
+              <input style="float: right;" class="ui inverted gray button" type="submit" value="取消">
+              <script type="text/javascript">
+                var a=document.getElementsByClassName("ui inverted green button");
+                function cancel(){var message=confirm("是否确认注册");
+                if(message==ture){window.open();}//初次登录跳转到修改信息页面的网址 设立_self
+                }
+              </script>
+              <script type="text/javascript">   
+                window.onunload = onunload_message;   
+                function onunload_message(){   
+                   alert("您确定离开该网页吗？");   
+               }   
+           </script>  
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+<script type="text/javascript">   
+    window.onunload = onunload_message;   
+    function onunload_message(){   
+       alert("您确定离开该网页吗？");   
+   }   
+</script>  
+</html>
