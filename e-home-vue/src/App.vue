@@ -17,7 +17,7 @@ function clickTitle() {
 </script>
 
 <template>
-  <n-config-provider :locale="zhCN" :date-locale="dateZhCN">
+  <!-- <n-config-provider :locale="zhCN" :date-locale="dateZhCN">
     <n-space vertical size="large">
       <n-layout>
         <n-layout-header>
@@ -43,7 +43,10 @@ function clickTitle() {
         </n-layout-content>
       </n-layout>
     </n-space>
-  </n-config-provider>
+  </n-config-provider> -->
+
+  <router-view/>
+  
 </template>
 
 <style>

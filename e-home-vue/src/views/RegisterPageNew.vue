@@ -1,0 +1,103 @@
+<script setup lang="ts">
+import {reactive, ref} from 'vue'
+import axios from 'axios'
+const UserData = reactive({
+    name: '',
+    pwd: '',
+    pwdRepeat: '',
+    email: '',
+    phone: '',
+    type: 0,
+})
+const isPwdSame = ref(false)
+
+function registerClick () {
+
+}
+
+function CheckPwd () {
+    isPwdSame.value = UserData.pwd == UserData.pwdRepeat
+    console.log(isPwdSame.value)
+}
+
+</script>
+
+<template>
+    <div style="width: 70%; margin: 0 auto; padding-top: 20em;padding-bottom: 20em;">   
+          <div class="ui stackable centered column grid">
+            <div class="centered row">
+              <div class="six wide column">
+                <div style="padding-bottom: 5em; background-color: rgba(245, 245, 245,0.5);" class="ui segment">
+                  <form id="regist" class="ui form" onsubmit="return false;">
+                    <h3 style="color: #1890ff;text-align:center;">用户注册</h3>
+                    <div class="field">
+                      <label for="username">用户名：</label>
+                      <input v-model="UserData.name" type="text" name="username" id="username" placeholder="请输入用户名" >
+                    </div>    
+              <div class="field">
+                 <label for="password">密码：</label>
+                 <input v-model="UserData.pwd" type="password" name="password" id="password" placeholder="请输入密码" >
+                 </div>
+                    <div class="field">
+                      <label for="confirm_password">重复密码：</label>
+                      <input
+                      v-model="UserData.pwdRepeat"
+                      @input="CheckPwd"
+                      type="password" 
+                      name="confirm_password" 
+                      id="confirm_password" 
+                      placeholder="重复输入密码">
+                        <label> {{ isPwdSame?"合法":"两次输入不同"}} </label>
+                    </div>
+                    <div class="field">
+                      <label for="email">邮箱：</label>
+                      <input v-model="UserData.email" type="email" name="email" id="email" placeholder="请输入邮箱" >
+                    </div>
+                    <div class="field">
+                      <label for="phone">手机号码：</label>
+                      <input v-model="UserData.phone" type="text" name="phone" id="phone" placeholder="请输入手机号码" >
+                    </div>
+                    <!-- <div>
+                      <label for="identity">身份：</label>
+                      <input type="radio" value="0" name="identity" id="identity" style="font-weight:bold;">志愿者
+                      <input type="radio" value="1" name="identity" id="identity" style="font-weight:bold;">子女
+                    </div> -->
+                    <div class="field">
+                        <label for="identity">选择您的身份</label>
+                        <select v-model="UserData.type" name="identity" id="identity">
+                            <option value="0"> 志愿者 </option>
+                            <option value="1"> 子女 </option>
+                        </select>
+                    </div>
+                    </form>
+                    <p> {{ UserData }}</p>
+                    <button style="float: right;" class="ui inverted green button" @click.native="registerClick"> 注册 </button>
+                    <button style="float: right;" class="ui inverted blue button"> 取消 </button>
+                    <!-- <input style="float: right;" class="ui inverted green button"  type="submit" value="注册" onclick="cancel()"> -->
+                    <!-- <input style="float: right;" class="ui inverted gray button"  type="submit" value="取消"> -->
+                    
+                    <!-- <script type="text/javascript">
+                      var a=document.getElementsByClassName("ui inverted green button");
+                      function cancel(){var message=confirm("是否确认注册");
+                      if(message==ture){window.open();}//跳转到登录页面的网址 设立_self
+                      }
+                    </script>
+                    <script type="text/javascript">   
+                      window.onunload = onunload_message;   
+                      function onunload_message(){   
+                         alert("您确定离开该网页吗？");   
+                     }   
+                 </script>  
+                    <script type="text/javascript" src="public\index.js"></script> -->
+                  
+
+                </div>  
+              </div>
+            </div>
+          </div>
+    </div>
+</template>
+
+<script>
+
+</script>

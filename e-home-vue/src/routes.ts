@@ -5,7 +5,7 @@ export default createRouter({
     routes:[
         { path: '/', redirect: '/index'},
         { path: '/index', component: () => import("./views/IndexPage.vue")},
-        // { path: '/test', component: () => import("./views/IndexPage.vue")},
+        { path: '/test', component: () => import("./views/RegisterPageNew.vue")},
         { path: '/login', name:'login', component: () => import("./views/LoginPage.vue")},
         { path: '/register', name:'register', component: () => import("./views/RegisterPage.vue")}
     ]
