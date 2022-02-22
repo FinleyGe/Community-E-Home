@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import {reactive, ref} from 'vue'
+import {computed, reactive, ref} from 'vue'
+import {isPwdValid} from '../utilities/valid'
 import axios from 'axios'
 const UserData = reactive({
     name: '',
@@ -10,14 +11,16 @@ const UserData = reactive({
     type: 0,
 })
 const isPwdSame = ref(false)
+const pwdValid = ref(false)
 
 function registerClick () {
-
+  if (!(isPwdSame.value && pwdValid.value)) {
+    alert("请重新检查您的密码！")
+  }
 }
-
 function CheckPwd () {
     isPwdSame.value = UserData.pwd == UserData.pwdRepeat
-    console.log(isPwdSame.value)
+    pwdValid.value = isPwdValid(UserData.pwd)
 }
 
 </script>
@@ -36,7 +39,14 @@ function CheckPwd () {
                     </div>    
               <div class="field">
                  <label for="password">密码：</label>
-                 <input v-model="UserData.pwd" type="password" name="password" id="password" placeholder="请输入密码" >
+                 <input 
+                 v-model="UserData.pwd" 
+                 @input="CheckPwd"
+                 type="password" 
+                 name="password" 
+                 id="password" 
+                 placeholder="请输入密码" >
+                 <label> {{pwdValid?"合法":"密码过于简单"}}</label>
                  </div>
                     <div class="field">
                       <label for="confirm_password">重复密码：</label>
