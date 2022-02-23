@@ -16,11 +16,17 @@ const pwdValid = ref(false)
 function registerClick () {
   if (!(isPwdSame.value && pwdValid.value)) {
     alert("请重新检查您的密码！")
+    // TODO Rebuild a alert
+  }else{
+    
   }
 }
 function CheckPwd () {
     isPwdSame.value = UserData.pwd == UserData.pwdRepeat
     pwdValid.value = isPwdValid(UserData.pwd)
+}
+function cancelClick() {
+  // TODO : cancel click
 }
 
 </script>
@@ -67,11 +73,6 @@ function CheckPwd () {
                       <label for="phone">手机号码：</label>
                       <input v-model="UserData.phone" type="text" name="phone" id="phone" placeholder="请输入手机号码" >
                     </div>
-                    <!-- <div>
-                      <label for="identity">身份：</label>
-                      <input type="radio" value="0" name="identity" id="identity" style="font-weight:bold;">志愿者
-                      <input type="radio" value="1" name="identity" id="identity" style="font-weight:bold;">子女
-                    </div> -->
                     <div class="field">
                         <label for="identity">选择您的身份</label>
                         <select v-model="UserData.type" name="identity" id="identity">
@@ -82,25 +83,7 @@ function CheckPwd () {
                     </form>
                     <p> {{ UserData }}</p>
                     <button style="float: right;" class="ui inverted green button" @click.native="registerClick"> 注册 </button>
-                    <button style="float: right;" class="ui inverted blue button"> 取消 </button>
-                    <!-- <input style="float: right;" class="ui inverted green button"  type="submit" value="注册" onclick="cancel()"> -->
-                    <!-- <input style="float: right;" class="ui inverted gray button"  type="submit" value="取消"> -->
-                    
-                    <!-- <script type="text/javascript">
-                      var a=document.getElementsByClassName("ui inverted green button");
-                      function cancel(){var message=confirm("是否确认注册");
-                      if(message==ture){window.open();}//跳转到登录页面的网址 设立_self
-                      }
-                    </script>
-                    <script type="text/javascript">   
-                      window.onunload = onunload_message;   
-                      function onunload_message(){   
-                         alert("您确定离开该网页吗？");   
-                     }   
-                 </script>  
-                    <script type="text/javascript" src="public\index.js"></script> -->
-                  
-
+                    <button style="float: right;" class="ui inverted blue button" @click.native="cancelClick"> 取消 </button>
                 </div>  
               </div>
             </div>
