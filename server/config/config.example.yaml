@@ -1,20 +1,20 @@
 database:
-  host    : ""
-  user    : ""
-  passport: ""
-  port    : 3306
-  name    : ""
+  host    : ""    # mysql 地址
+  user    : ""    # mysql管理员用户
+  passport: ""    # 用户密码
+  port    : 3306  # mysql端口 一般都是3306
+  name    : ""    # 表名
 
 server:
-  port: "8989"
+  port: "8989"    # 服务器监听端口
 
 jwt: 
-  expires : 48
-  issuer  : ""
-  secret : ""
+  expires : 48    # 登录过期时间
+  issuer  : ""    # 发起人
+  secret : ""     # 加密信息
 
 email:
-  sender: ""
-  pwd: ""
+  sender: ""      # 发送邮件的地址
+  pwd: ""         # 授权码
   smtpAddr : "smtp.qq.com"
   smtpPort : 25
