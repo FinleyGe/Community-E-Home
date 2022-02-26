@@ -28,14 +28,8 @@ type RegisterAPI struct {
 }
 
 func Login(c *gin.Context) {
-	// Should use ShouldBindJson instead of PostForm.
 	api := LoginAPI{}
 	c.ShouldBind(&api)
-	// email := c.PostForm("email")
-	// method := c.PostForm("method")
-	// phone := c.PostForm("phone")
-	// pwd := c.PostForm("pwd")
-	// fmt.Println(email, method, phone, pwd)
 	if (api.Email == "" && api.Method == "0") || (api.Phone == "" && api.Method == "1") {
 		c.JSON(400,
 			gin.H{
@@ -83,10 +77,13 @@ func Register(c *gin.Context) {
 	user := model.User{}
 	database.DB.
 		Where("email = ?", API.Email).
-		Or("phone = ?", API.Phone).First(&user)
+		Or("phone = ?", API.Phone).
+		First(&user)
+
 	if (user != model.User{}) {
 		c.JSON(406, gin.H{
-			"status": -1, // exist
+			// "status": -1, // exist
+			"message": "User exist", //
 		})
 	} else {
 		user.Name = API.Name
@@ -99,11 +96,13 @@ func Register(c *gin.Context) {
 		e := database.DB.Create(&user)
 		if e.Error != nil {
 			c.JSON(500, gin.H{
-				"status": -100, // other error
+				// "status": -100, // other error
+				"message": "other error",
 			})
 		} else {
 			c.JSON(200, gin.H{
-				"status": 0, //OK
+				// "status": 0, //OK
+				"message": "OK",
 			})
 		}
 	}

@@ -1,75 +1,139 @@
 <script setup lang="ts">
+import { computed, reactive, ref } from 'vue'
+import { isPwdValid } from '../utilities/valid'
+import axios from 'axios'
+import notice from '../components/Notice.vue'
+import { IUserInfo, register } from '../utilities/apis'
 
-import { NForm, NFormItem, NInput, NSelect, NButton} from 'naive-ui';
-import {reactive} from 'vue'
-import axios from 'axios';
-import config from '../config'
-const user = reactive({
-    name            : '',
-    pwd             : '',
-    pwd_confirm     : '',
-    email           : '',
-    phone           : '',
-    type            : 0,
+
+const UserData: IUserInfo = reactive({
+  name: '',
+  pwd: '',
+  phone: '',
+  email: '',
+  type: 0,
 })
 
-const options = [
-    {
-        label : "志愿者",
-        value : 0,
-    },
-    {
-        label : "子女",
-        value : 1,
-    }
-]
-
+const pwdRepeat = ref('')
+const isPwdSame = ref(false)
+const pwdValid = ref(false)
 
 function registerClick() {
-    // axios.post('localhost:8989/api/register')
-    // axios.get('http://0.0.0.0:8989/api/test').then(res => {console.log(res)})
-    // TODO: is data valid
-    const data = {
-        email : user.email,
-        pwd : user.pwd,
-        phone : user.phone,
-        name : user.name,
-    }
-    axios.post(config.SERVER + '/api/register', data).then(res => {console.log(res)})
+  if (!(isPwdSame.value && pwdValid.value)) {
+    alert("请重新检查您的密码！")
+  } else {
+    register(UserData);
+  }
+}
+function CheckPwd() {
+  isPwdSame.value = UserData.pwd == pwdRepeat.value
+  pwdValid.value = isPwdValid(UserData.pwd)
+}
+function CheckInfo() {
+
+}
+
+function cancelClick() {
+  // TODO : cancel click
 }
 
 </script>
+
 <template>
-<n-form>
-    <n-form-item label="用户名" path="user.name">
-        <n-input v-model:value="user.name" placeholder="输入姓名" />
-    </n-form-item>
-
-    <n-form-item label="电子邮件" path="user.email">
-        <n-input v-model:value="user.email" placeholder="输入电子邮件地质"/>
-    </n-form-item>
-    
-    <n-form-item label="电话号码" path="user.phone">
-        <n-input v-model:value="user.phone" placeholder="输入电话号码"/>
-    </n-form-item>
-    
-    <n-form-item label="密码" path="user.pwd">
-        <n-input v-model:value="user.pwd" placeholder="输入密码"/>
-    </n-form-item>
-
-    <n-form-item label="确认密码" path="user.pwd_confirm">
-        <n-input v-model:value="user.pwd_confirm" placeholder="输入确认密码"/>
-    </n-form-item>
-
-    <n-form-item label="选择你的类型" path="user.type">
-        <n-select v-model:value="user.type" :options="options"/>
-    </n-form-item>
-
-    <n-button @click="registerClick"> 注册 </n-button>
-</n-form>
-{{user.name}}
+  <div style="width: 70%; margin: 0 auto; padding-top: 20em;padding-bottom: 20em;">
+    <div class="ui stackable centered column grid">
+      <div class="centered row">
+        <div class="six wide column">
+          <div
+            style="padding-bottom: 5em; background-color: rgba(245, 245, 245,0.5);"
+            class="ui segment"
+          >
+            <form id="regist" class="ui form" onsubmit="return false;">
+              <h3 style="color: #1890ff;text-align:center;">用户注册</h3>
+              <!-- <notice> asd asd </notice> -->
+              <div class="field">
+                <label for="username">用户名：</label>
+                <input
+                  v-model="UserData.name"
+                  type="text"
+                  name="username"
+                  id="username"
+                  placeholder="请输入用户名"
+                />
+              </div>
+              <div class="field">
+                <label for="password">密码：</label>
+                <input
+                  v-model="UserData.pwd"
+                  @input="CheckPwd"
+                  type="password"
+                  name="password"
+                  id="password"
+                  placeholder="请输入密码"
+                />
+                <label class="notice">{{ pwdValid ? "合法" : "密码过于简单" }}</label>
+              </div>
+              <div class="field">
+                <label for="confirm_password">重复密码：</label>
+                <input
+                  v-model="pwdRepeat"
+                  @input="CheckPwd"
+                  type="password"
+                  name="confirm_password"
+                  id="confirm_password"
+                  placeholder="重复输入密码"
+                />
+                <label class="notice">{{ isPwdSame ? "合法" : "两次输入不同" }}</label>
+              </div>
+              <div class="field">
+                <label for="email">邮箱：</label>
+                <input
+                  v-model="UserData.email"
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="请输入邮箱"
+                />
+              </div>
+              <div class="field">
+                <label for="phone">手机号码：</label>
+                <input
+                  v-model="UserData.phone"
+                  type="text"
+                  name="phone"
+                  id="phone"
+                  placeholder="请输入手机号码"
+                />
+              </div>
+              <div class="field">
+                <label for="identity">选择您的身份</label>
+                <select v-model="UserData.type" name="identity" id="identity">
+                  <option value="0">志愿者</option>
+                  <option value="1">子女</option>
+                </select>
+              </div>
+            </form>
+            <!-- <p> {{ UserData }}</p> -->
+            <button
+              style="float: right;"
+              class="ui inverted green button"
+              @click.native="registerClick"
+              :disabled="!(pwdValid && isPwdSame)"
+            >注册</button>
+            <button
+              style="float: right;"
+              class="ui inverted blue button"
+              @click.native="cancelClick"
+            >取消</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style>
-
+.notice {
+  color: red;
+}
 </style>

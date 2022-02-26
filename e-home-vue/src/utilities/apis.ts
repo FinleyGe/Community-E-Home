@@ -9,12 +9,50 @@ export interface IUserInfo {
     type    : number;
 }
 
+export interface IUserLoginInfo {
+    email : string;
+    phone : string;
+    pwd   : string;
+}
+
+export interface IEditUserInfo {
+    profile : string;
+}
+
+export interface IValidEmail {
+    code : string;
+}
+
 export function register(userData: IUserInfo):void {
     axios.post(url + '/api/register', userData)
     .then((response) => {
         alert('注册成功');
         console.log(response);
-    }).catch((error) => {
-        console.log(error);
+        // TODO change to edit the user info page
     })
+    .catch((error) => {
+        if(error.response.status === 406) {
+            alert('用户已经存在！')
+        }else{
+            alert('其他错误！')
+        }
+    })
+}
+
+export function login(userData: IUserLoginInfo):void {
+    axios.post(url + '/api/login', userData).
+    then((response) => {
+        // TODO
+    }).
+    catch((error) => {
+        // TODO
+    })
+}
+
+export function EditUserInfo(userData: IEditUserInfo):void {
+    // TODO
+}
+
+export function ValidEmail(userData: IValidEmail): void {
+    // TODO
 }
