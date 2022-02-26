@@ -12,6 +12,7 @@ import (
 )
 
 type UserAPI struct {
+	Name  string `json:"name"`
 	Email string `json:"email"`
 	Phone string `json:"phone"`
 	Pwd   string `json:"pwd"`
@@ -23,7 +24,7 @@ type LoginAPI struct {
 }
 type RegisterAPI struct {
 	UserAPI
-	Type string `json:"type"`
+	Type int `json:"type"`
 }
 
 func Login(c *gin.Context) {
@@ -78,6 +79,7 @@ func Login(c *gin.Context) {
 func Register(c *gin.Context) {
 	API := RegisterAPI{}
 	c.ShouldBind(&API)
+	fmt.Println(API)
 	user := model.User{}
 	database.DB.
 		Where("email = ?", API.Email).
@@ -87,17 +89,13 @@ func Register(c *gin.Context) {
 			"status": -1, // exist
 		})
 	} else {
+		user.Name = API.Name
 		user.Pwd = API.Pwd
 		user.Email = API.Email
 		user.Phone = API.Phone
-		t, err := strconv.Atoi(API.Type)
-		if err != nil {
-			c.JSON(400, gin.H{
-				"status": -100, // other error
-			})
-		}
-		user.Type = uint8(t)
+		user.Type = uint8(API.Type)
 		user.Valid = false
+
 		e := database.DB.Create(&user)
 		if e.Error != nil {
 			c.JSON(500, gin.H{

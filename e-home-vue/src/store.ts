@@ -12,10 +12,6 @@ const userState = {
         login (state: any) {
             state.isLoggedIn = true
         },
-        logout (state: any) {
-            state.isLoggedIn = false
-        },
-        
     }
 }
 

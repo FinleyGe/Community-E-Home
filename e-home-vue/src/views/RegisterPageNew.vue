@@ -2,29 +2,37 @@
 import {computed, reactive, ref} from 'vue'
 import {isPwdValid} from '../utilities/valid'
 import axios from 'axios'
-const UserData = reactive({
-    name: '',
-    pwd: '',
-    pwdRepeat: '',
-    email: '',
-    phone: '',
-    type: 0,
+import notice from '../components/Notice.vue'
+import {IUserInfo, register} from '../utilities/apis'
+
+
+const UserData:IUserInfo = reactive({
+  name : '',
+  pwd : '',
+  phone : '',
+  email : '',
+  type : 0,
 })
+
+const pwdRepeat = ref('')
 const isPwdSame = ref(false)
 const pwdValid = ref(false)
 
 function registerClick () {
   if (!(isPwdSame.value && pwdValid.value)) {
     alert("请重新检查您的密码！")
-    // TODO Rebuild a alert
   }else{
-    
+    register(UserData);
   }
 }
 function CheckPwd () {
-    isPwdSame.value = UserData.pwd == UserData.pwdRepeat
+    isPwdSame.value = UserData.pwd == pwdRepeat.value
     pwdValid.value = isPwdValid(UserData.pwd)
 }
+function CheckInfo(){
+  
+}
+
 function cancelClick() {
   // TODO : cancel click
 }
@@ -39,6 +47,7 @@ function cancelClick() {
                 <div style="padding-bottom: 5em; background-color: rgba(245, 245, 245,0.5);" class="ui segment">
                   <form id="regist" class="ui form" onsubmit="return false;">
                     <h3 style="color: #1890ff;text-align:center;">用户注册</h3>
+                    <!-- <notice> asd asd </notice> -->
                     <div class="field">
                       <label for="username">用户名：</label>
                       <input v-model="UserData.name" type="text" name="username" id="username" placeholder="请输入用户名" >
@@ -52,18 +61,18 @@ function cancelClick() {
                  name="password" 
                  id="password" 
                  placeholder="请输入密码" >
-                 <label> {{pwdValid?"合法":"密码过于简单"}}</label>
+                 <label class="notice"> {{pwdValid?"合法":"密码过于简单"}}</label>
                  </div>
                     <div class="field">
                       <label for="confirm_password">重复密码：</label>
                       <input
-                      v-model="UserData.pwdRepeat"
+                      v-model="pwdRepeat"
                       @input="CheckPwd"
                       type="password" 
                       name="confirm_password" 
                       id="confirm_password" 
                       placeholder="重复输入密码">
-                        <label> {{ isPwdSame?"合法":"两次输入不同"}} </label>
+                        <label class="notice"> {{ isPwdSame?"合法":"两次输入不同"}} </label>
                     </div>
                     <div class="field">
                       <label for="email">邮箱：</label>
@@ -81,8 +90,12 @@ function cancelClick() {
                         </select>
                     </div>
                     </form>
-                    <p> {{ UserData }}</p>
-                    <button style="float: right;" class="ui inverted green button" @click.native="registerClick"> 注册 </button>
+                    <!-- <p> {{ UserData }}</p> -->
+                    <button 
+                    style="float: right;" 
+                    class="ui inverted green button" 
+                    @click.native="registerClick"
+                    :disabled="!(pwdValid&&isPwdSame)"> 注册 </button>
                     <button style="float: right;" class="ui inverted blue button" @click.native="cancelClick"> 取消 </button>
                 </div>  
               </div>
@@ -91,6 +104,8 @@ function cancelClick() {
     </div>
 </template>
 
-<script>
-
-</script>
+<style>
+.notice{
+  color: red;
+}
+</style>
