@@ -1,21 +1,32 @@
-import {createStore} from 'vuex'
+import { InjectionKey, UserState } from 'vue';
+import {createStore, Store} from 'vuex'
 
+export const key : InjectionKey<Store<UserState>> = Symbol()
 const userState = {
     state : () => ({
-        isLoggedIn  : Boolean,
-        name        : String,
-        avatarUrl   : String,
-        type        : String,
-
+        isLoggedIn  : false,
+        name        : '',
+        avatarUrl   : '',
+        type        : -1,
+        jwt         : '',
     }),
     mutations: {
-        login (state: any) {
-            state.isLoggedIn = true
+        setLogin (state: any) {
+            state.isLoggedIn = true;
         },
+        setJwt (state: any, jwt: string) {
+            state.jwt = jwt;
+        }
+    },
+    action : {
+        login (state: any, jwt: string) {
+            setLogin(state, jwt);
+
+        }
     }
 }
 
-const store = createStore({
+export const store = createStore({
     modules : {
         UserState : userState,
     }

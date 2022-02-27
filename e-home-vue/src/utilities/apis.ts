@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import 
 const url = `http://127.0.0.1:8989`
 export interface IUserInfo {
     name    : string;
@@ -10,8 +10,8 @@ export interface IUserInfo {
 }
 
 export interface IUserLoginInfo {
-    email : string;
-    phone : string;
+    emailPhone : string;
+    method : number;
     pwd   : string;
 }
 
@@ -42,10 +42,11 @@ export function register(userData: IUserInfo):void {
 export function login(userData: IUserLoginInfo):void {
     axios.post(url + '/api/login', userData).
     then((response) => {
-        // TODO
+        console.log(response);
+        response.data.jwt
     }).
     catch((error) => {
-        // TODO
+        console.log(error);
     })
 }
 
