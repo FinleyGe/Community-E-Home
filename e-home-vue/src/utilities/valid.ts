@@ -12,3 +12,13 @@ export function isPwdValid(pwd: string):boolean {
     var reg = /^[a-zA-Z]\w{5,17}$/
     return reg.test(pwd)
 }
+
+export function isEmailOrPhone(emailOrPhone: string):number {
+    if(isEmail(emailOrPhone)){
+        return 0;
+    }else if (isPhone(emailOrPhone)){
+        return 1;
+    }else{
+        return -1;
+    }
+}

@@ -19,8 +19,9 @@ type UserAPI struct {
 }
 
 type LoginAPI struct {
-	UserAPI
-	Method string `json:"method"`
+	EmailPhone string `json:"emailPhone"`
+	Pwd        string `json:"pwd"`
+	Method     int    `json:"method"`
 }
 type RegisterAPI struct {
 	UserAPI
@@ -30,42 +31,35 @@ type RegisterAPI struct {
 func Login(c *gin.Context) {
 	api := LoginAPI{}
 	c.ShouldBind(&api)
-	if (api.Email == "" && api.Method == "0") || (api.Phone == "" && api.Method == "1") {
-		c.JSON(400,
-			gin.H{
-				"status": -100,
-			})
+	fmt.Println(api)
+	user := model.User{}
+	if api.Method == 0 {
+		database.DB.Where("email = ?", api.EmailPhone).First(&user)
+	} else {
+		database.DB.Where("phone = ?", api.EmailPhone).First(&user)
+	}
+
+	if (model.User{} == user) {
+		c.JSON(406, gin.H{
+			"status": -1, // not found
+		})
 		return
 	} else {
-		user := model.User{}
-		if api.Method == "0" {
-			database.DB.Where("email = ?", api.Email).First(&user)
-		} else {
-			database.DB.Where("phone = ?", api.Phone).First(&user)
-		}
-
-		if (model.User{} == user) {
-			c.JSON(406, gin.H{
-				"status": -1, // not found
+		if user.Pwd == api.Pwd {
+			// Get JWT
+			jwtData := utility.JwtData{
+				ID: strconv.Itoa(int(user.Id)),
+			}
+			jwt := utility.GenerateStandardJwt(&jwtData)
+			c.JSON(200, gin.H{
+				"status": 0,   // OK
+				"jwt":    jwt, //
 			})
 			return
 		} else {
-			if user.Pwd == api.Pwd {
-				// Get JWT
-				jwtData := utility.JwtData{
-					ID: strconv.Itoa(int(user.Id)),
-				}
-				jwt := utility.GenerateStandardJwt(&jwtData)
-				c.JSON(200, gin.H{
-					"status": 0,   // OK
-					"jwt":    jwt, //
-				})
-				return
-			} else {
-				c.JSON(406, gin.H{
-					"status": -2, // pwd wrong
-				})
-			}
+			c.JSON(406, gin.H{
+				"status": -2, // pwd wrong
+			})
 		}
 	}
 }

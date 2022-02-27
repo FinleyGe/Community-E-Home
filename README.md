@@ -37,9 +37,7 @@ method: `POST`
 params:
 ```
 {
-    'email' = string, // 电子邮箱
-    'phone' = string, // 电话号
-    // 注意上述两个字段只需要提供一个
+    'emailPhone' = string, // 电子邮箱或是电话号码
     'method' = int,
     // 0 -- 使用电子邮箱登陆
     // 1 -- 使用电话号登陆
