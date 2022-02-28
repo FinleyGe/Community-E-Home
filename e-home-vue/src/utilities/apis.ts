@@ -1,6 +1,8 @@
-import axios from 'axios';
-import 
+import axios, { AxiosRequestConfig } from 'axios';
+
 const url = `http://127.0.0.1:8989`
+// const store = useStore(key)
+
 export interface IUserInfo {
     name    : string;
     pwd     : string;
@@ -23,6 +25,8 @@ export interface IValidEmail {
     code : string;
 }
 
+const request = async (config: AxiosRequestConfig): Promise<> => {}
+
 export function register(userData: IUserInfo):void {
     axios.post(url + '/api/register', userData)
     .then((response) => {
@@ -39,14 +43,16 @@ export function register(userData: IUserInfo):void {
     })
 }
 
-export function login(userData: IUserLoginInfo):void {
+export function login(userData: IUserLoginInfo):string {
     axios.post(url + '/api/login', userData).
     then((response) => {
-        console.log(response);
-        response.data.jwt
+        // console.log(response.data.jwt);
+        var jwt: string = response.data.jwt;
+        return jwt
     }).
     catch((error) => {
         console.log(error);
+        return ''
     })
 }
 
