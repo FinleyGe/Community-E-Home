@@ -40,9 +40,10 @@ func Login(c *gin.Context) {
 	}
 
 	if (model.User{} == user) {
-		c.JSON(406, gin.H{
-			"status": -1, // not found
-		})
+		// c.JSON(406, gin.H{
+		// 	"status": -1, // not found
+		// })
+		utility.ResponseError(c, "User not found")
 		return
 	} else {
 		if user.Pwd == api.Pwd {
@@ -51,15 +52,19 @@ func Login(c *gin.Context) {
 				ID: strconv.Itoa(int(user.Id)),
 			}
 			jwt := utility.GenerateStandardJwt(&jwtData)
-			c.JSON(200, gin.H{
-				"status": 0,   // OK
-				"jwt":    jwt, //
+			// c.JSON(200, gin.H{
+			// 	"status": 0,   // OK
+			// 	"jwt":    jwt, //
+			// })
+			utility.ResponseSuccess(c, gin.H{
+				"jwt": jwt,
 			})
 			return
 		} else {
-			c.JSON(406, gin.H{
-				"status": -2, // pwd wrong
-			})
+			// c.JSON(406, gin.H{
+			// 	"status": -2, // pwd wrong
+			// })
+			utility.ResponseError(c, "Wrong Pwd")
 		}
 	}
 }

@@ -1,34 +1,37 @@
 <script setup lang="ts">
 import { computed, reactive } from "vue";
 import { useRouter } from "vue-router";
-import { IUserLoginInfo, login } from "../utilities/apis";
 import { isEmailOrPhone } from "../utilities/valid";
 import { useUserStore } from "../stores/user";
+import { ILoginInfo } from "../types/user";
+import { LoginApi } from "../apis/user";
 const router = useRouter();
 const userStore = useUserStore();
 
-const loginInfo: IUserLoginInfo = reactive({
+const loginInfo: ILoginInfo = reactive({
   emailPhone: "",
   method: computed(() => isEmailOrPhone(loginInfo.emailPhone)),
   pwd: "",
 });
 
 function RegisterClicked() {
-  // router.push("/register");
-  console.log(userStore.jwt);
+  router.push("/register");
+  // console.log(userStore.jwt);
 }
 
-function LoginClicked() {
+async function LoginClicked() {
   if (loginInfo.method == -1) {
     alert("请检查您的手机号或电子邮箱！");
   } else {
-    var jwt: string = login(loginInfo);
-    userStore.$patch({
-      jwt: jwt,
-    });
-    console.log(jwt);
-    // console.log(userStore.jwt);
-    // alert(userStore.jwt);
+    var { data } = await LoginApi(loginInfo);
+    // console.log(data);
+    if (data.jwt == "") {
+      // not success
+      alert("登录失败");
+    } else {
+      alert("登录成功");
+      userStore.jwt = data.jwt;
+    }
   }
 }
 </script>
@@ -65,13 +68,6 @@ function LoginClicked() {
                 />
               </div>
               <button
-                class="ui inverted green button"
-                style="float: right"
-                @click.native="RegisterClicked"
-              >
-                注册
-              </button>
-              <button
                 class="ui inverted blue button"
                 style="float: right"
                 @click.native="LoginClicked"
@@ -79,9 +75,16 @@ function LoginClicked() {
               >
                 登录
               </button>
+              <button
+                class="ui inverted green button"
+                style="float: right"
+                @click.native="RegisterClicked"
+              >
+                注册
+              </button>
             </form>
-            jwt:
-            {{ userStore.jwt }}
+            <!-- jwt:
+            {{ userStore.jwt }} -->
           </div>
         </div>
       </div>

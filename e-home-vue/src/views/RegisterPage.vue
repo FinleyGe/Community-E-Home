@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from "vue";
+import { useRouter } from "vue-router";
 import { isPwdValid } from "../utilities/valid";
-// import axios from "axios";
-// import notice from "../components/Notice.vue";
-import { IUserInfo, register } from "../utilities/apis";
 
-const UserData: IUserInfo = reactive({
+const UserData = reactive({
   name: "",
   pwd: "",
   phone: "",
@@ -16,12 +14,12 @@ const UserData: IUserInfo = reactive({
 const pwdRepeat = ref("");
 const isPwdSame = ref(false);
 const pwdValid = ref(false);
-
+const router = useRouter();
 function registerClick() {
   if (!(isPwdSame.value && pwdValid.value)) {
     alert("请重新检查您的密码！");
   } else {
-    register(UserData);
+    // register(UserData);
   }
 }
 function CheckPwd() {
@@ -31,7 +29,7 @@ function CheckPwd() {
 function CheckInfo() {}
 
 function cancelClick() {
-  // TODO : cancel click
+  router.push("/index");
 }
 </script>
 
