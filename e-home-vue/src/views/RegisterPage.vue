@@ -1,55 +1,51 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
-import { isPwdValid } from '../utilities/valid'
-import axios from 'axios'
-import notice from '../components/Notice.vue'
-import { IUserInfo, register } from '../utilities/apis'
-
+import { computed, reactive, ref } from "vue";
+import { isPwdValid } from "../utilities/valid";
+// import axios from "axios";
+// import notice from "../components/Notice.vue";
+import { IUserInfo, register } from "../utilities/apis";
 
 const UserData: IUserInfo = reactive({
-  name: '',
-  pwd: '',
-  phone: '',
-  email: '',
+  name: "",
+  pwd: "",
+  phone: "",
+  email: "",
   type: 0,
-})
+});
 
-const pwdRepeat = ref('')
-const isPwdSame = ref(false)
-const pwdValid = ref(false)
+const pwdRepeat = ref("");
+const isPwdSame = ref(false);
+const pwdValid = ref(false);
 
 function registerClick() {
   if (!(isPwdSame.value && pwdValid.value)) {
-    alert("请重新检查您的密码！")
+    alert("请重新检查您的密码！");
   } else {
     register(UserData);
   }
 }
 function CheckPwd() {
-  isPwdSame.value = UserData.pwd == pwdRepeat.value
-  pwdValid.value = isPwdValid(UserData.pwd)
+  isPwdSame.value = UserData.pwd == pwdRepeat.value;
+  pwdValid.value = isPwdValid(UserData.pwd);
 }
-function CheckInfo() {
-
-}
+function CheckInfo() {}
 
 function cancelClick() {
   // TODO : cancel click
 }
-
 </script>
 
 <template>
-  <div style="width: 70%; margin: 0 auto; padding-top: 20em;padding-bottom: 20em;">
+  <div style="width: 70%; margin: 0 auto; padding-top: 20em; padding-bottom: 20em">
     <div class="ui stackable centered column grid">
       <div class="centered row">
         <div class="six wide column">
           <div
-            style="padding-bottom: 5em; background-color: rgba(245, 245, 245,0.5);"
+            style="padding-bottom: 5em; background-color: rgba(245, 245, 245, 0.5)"
             class="ui segment"
           >
             <form id="regist" class="ui form" onsubmit="return false;">
-              <h3 style="color: #1890ff;text-align:center;">用户注册</h3>
+              <h3 style="color: #1890ff; text-align: center">用户注册</h3>
               <!-- <notice> asd asd </notice> -->
               <div class="field">
                 <label for="username">用户名：</label>
@@ -115,16 +111,20 @@ function cancelClick() {
             </form>
             <!-- <p> {{ UserData }}</p> -->
             <button
-              style="float: right;"
+              style="float: right"
               class="ui inverted green button"
               @click.native="registerClick"
               :disabled="!(pwdValid && isPwdSame)"
-            >注册</button>
+            >
+              注册
+            </button>
             <button
-              style="float: right;"
+              style="float: right"
               class="ui inverted blue button"
               @click.native="cancelClick"
-            >取消</button>
+            >
+              取消
+            </button>
           </div>
         </div>
       </div>

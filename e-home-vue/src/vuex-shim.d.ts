@@ -1,15 +1,16 @@
 import { ComponentCustomProperties } from "vue";
-import {Store} from 'vuex'
+import { Store } from 'vuex'
 
 declare module "@vue/runtime-core" {
     interface UserState {
+        isLoggedIn: boolean;
         name : string;
         pwd : string;
         avatarUrl : string;
         type : number;
         jwt : string;
     }
-    interface ComponentCustomProperties{
+    interface ComponentCustomProperties {
         $store : Store<UserState>;
     }
 }
