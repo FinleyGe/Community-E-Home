@@ -17,6 +17,10 @@ export interface IRegisterInfo {
     type: number;
 }
 
-export interface IRegisterRequest {
+export interface IRequest {
     "message": string;
+}
+
+export interface IVerifyInfo {
+    email: string;
 }

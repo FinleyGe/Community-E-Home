@@ -25,7 +25,8 @@ type LoginAPI struct {
 }
 type RegisterAPI struct {
 	UserAPI
-	Type int `json:"type"`
+	Type int    `json:"type"`
+	Code string `json:"code"`
 }
 
 func Login(c *gin.Context) {
@@ -61,7 +62,16 @@ func Login(c *gin.Context) {
 func Register(c *gin.Context) {
 	API := RegisterAPI{}
 	c.ShouldBind(&API)
-	fmt.Println(API)
+	// Vertify Email
+	code := model.UserEmail{}
+	database.DB.Where("email = ?", API.Email).First(&code)
+	if code.VertifyCode != API.Code {
+		utility.ResponseError(c, "Wrong Vertify Code")
+		return
+	} else {
+		database.DB.Delete(&code) // 验证过，移除
+	}
+	// Register
 	user := model.User{}
 	database.DB.
 		Where("email = ?", API.Email).
@@ -76,7 +86,6 @@ func Register(c *gin.Context) {
 		user.Email = API.Email
 		user.Phone = API.Phone
 		user.Type = uint8(API.Type)
-		user.Valid = false
 
 		e := database.DB.Create(&user)
 		if e.Error != nil {
@@ -92,10 +101,6 @@ type TestAPI struct {
 }
 
 func Test(c *gin.Context) {
-	// test := TestAPI{}
-	// c.ShouldBind(&test)
-	// fmt.Println(test.Jwt)
-	// fmt.Println(utility.ParseToken(test.Jwt))
 	c.JSON(200, gin.H{
 		"msg": "something",
 	})
@@ -154,37 +159,17 @@ func UploadAvatar(c *gin.Context) {
 }
 
 func SendEmail(c *gin.Context) {
-	id := c.GetInt("id")
-	userEmail := model.UserEmail{}
-	user := model.User{}
-	user.Id = uint(id)
-	database.DB.Where("id = ?", id).First(&user)
-	// ? Maybe using goroutine is better for next line ?
-	userEmail.VertifyCode = utility.SendEmail(user.Email)
-	userEmail.Uid = uint(id)
-	database.DB.Create(&userEmail)
-	// c.JSON(200, gin.H{
-	// 	"message": "Email Sent",
-	// })
-	utility.ResponseSuccess(c, nil)
-}
+	email := model.UserEmail{}
+	database.DB.Where("email = ?", email).First(&email)
 
-func VertifyEmail(c *gin.Context) {
-	id := uint(c.GetInt("id"))
-	fmt.Println(c.GetInt("id"))
-	userEmail := model.UserEmail{}
-	c.ShouldBind(&userEmail) // vertify_code
-	database.DB.Find(&userEmail)
-	if userEmail.Uid == id {
-		// ok
-		database.DB.Model(model.User{}).Where("id = ?", id).Update("valid", true)
-		database.DB.Delete(&userEmail)
-		c.JSON(200, gin.H{
-			"message": "vertify success",
-		})
-	} else {
-		c.JSON(400, gin.H{
-			"message": "vertify error",
-		})
+	if (email != model.UserEmail{}) {
+		// 存在一个校验码，那么删除掉
+		// TODO 还可以优化
+		database.DB.Delete(&email)
 	}
+	email.VertifyCode = utility.SendEmail(email.Email)
+	database.DB.Create(&email)
+	utility.ResponseSuccess(c, gin.H{
+		"message": "ok",
+	})
 }

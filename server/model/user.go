@@ -12,7 +12,6 @@ type User struct {
 	// 1 for elder
 	// 2 for Admin
 	Profile string
-	Valid   bool `json:"valid"`
 }
 
 type UserTask struct {
@@ -23,6 +22,6 @@ type UserTask struct {
 }
 
 type UserEmail struct {
-	Uid         uint   `json:"uid"`
-	VertifyCode string `json:"vertify_code" gorm:"primary_key"`
+	Email       string `json:"email"`
+	VertifyCode string `json:"code" gorm:"primary_key"`
 }

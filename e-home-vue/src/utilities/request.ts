@@ -16,6 +16,7 @@ const request = async <T = any>(config:AxiosRequestConfig): Promise<ResponseType
     } catch (err:any) {
         const message = err.message || '请求失败'
         console.error(message)
+        alert(message)
         return {
             message: message,
             data: null as any

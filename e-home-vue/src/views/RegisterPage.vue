@@ -2,8 +2,8 @@
 import { computed, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import { isPwdValid } from "../utilities/valid";
-import { IRegisterInfo } from "../types/user";
-import { RegisterApi } from "../apis/user";
+import { IRegisterInfo, IVerifyInfo } from "../types/user";
+import { RegisterApi, VerifySendApi } from "../apis/user";
 // const UserData = reactive({
 //   name: "",
 //   pwd: "",
@@ -21,6 +21,10 @@ const UserData: IRegisterInfo = reactive({
   type: 0,
   code: "",
 });
+const verifyCode: IVerifyInfo = reactive({
+  email: UserData.email,
+});
+
 const pwdRepeat = ref("");
 const isPwdSame = ref(false);
 const pwdValid = ref(false);
@@ -51,7 +55,12 @@ function loginClicked() {
   router.push("/login");
 }
 
-function vertifyCode() {}
+async function vertifyCode() {
+  var { data } = await VerifySendApi(verifyCode);
+  if (data.message == "ok") {
+    alert("已经请求发送邮件");
+  }
+}
 </script>
 
 <template>
