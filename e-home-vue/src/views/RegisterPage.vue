@@ -37,7 +37,8 @@ async function registerClick() {
   } else {
     var { data } = await RegisterApi(UserData);
     if (data.message == "ok") {
-      alert("ok");
+      alert("注册成功，跳转到登录页面");
+      router.push("/login");
     }
   }
 }

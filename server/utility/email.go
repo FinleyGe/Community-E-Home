@@ -85,5 +85,6 @@ func SendEmail(target string) string {
 		}
 		log.Printf("Send Email Success")
 	}
+	log.Printf(vcode)
 	return vcode
 }
