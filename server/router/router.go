@@ -37,7 +37,7 @@ func RouterInit() {
 	Router.GET("/api/task/list", middleware.Auth, controller.GetTaskList)
 	// TODO : 通过特定条件检索任务
 	// TODO : 接受任务
-	Router.GET("/api/user/vertify", controller.SendEmail)
+	Router.POST("/api/user/vertify", controller.SendEmail)
 	// Router.POST("/api/user/vertify", middleware.EmailVertify, controller.VertifyEmail)
 	// Router.GET("/api/test", controller.SendEmail)
 }

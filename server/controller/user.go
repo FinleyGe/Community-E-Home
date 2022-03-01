@@ -64,6 +64,7 @@ func Register(c *gin.Context) {
 	c.ShouldBind(&API)
 	// Vertify Email
 	code := model.UserEmail{}
+	// fmt.Println(code)
 	database.DB.Where("email = ?", API.Email).First(&code)
 	if code.VertifyCode != API.Code {
 		utility.ResponseError(c, "Wrong Vertify Code")
@@ -91,7 +92,9 @@ func Register(c *gin.Context) {
 		if e.Error != nil {
 			utility.ResponseError(c, "Other Error")
 		} else {
-			utility.ResponseSuccess(c, nil)
+			utility.ResponseSuccess(c, gin.H{
+				"message": "ok",
+			})
 		}
 	}
 }
@@ -159,8 +162,10 @@ func UploadAvatar(c *gin.Context) {
 }
 
 func SendEmail(c *gin.Context) {
+	fmt.Println(c)
 	email := model.UserEmail{}
-	database.DB.Where("email = ?", email).First(&email)
+	c.ShouldBind(&email)
+	database.DB.Where("email = ?", email.Email).First(&email)
 
 	if (email != model.UserEmail{}) {
 		// 存在一个校验码，那么删除掉

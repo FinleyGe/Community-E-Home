@@ -22,7 +22,7 @@ const UserData: IRegisterInfo = reactive({
   code: "",
 });
 const verifyCode: IVerifyInfo = reactive({
-  email: UserData.email,
+  email: "",
 });
 
 const pwdRepeat = ref("");
@@ -55,7 +55,9 @@ function loginClicked() {
   router.push("/login");
 }
 
-async function vertifyCode() {
+async function vertifyCodeClick() {
+  verifyCode.email = UserData.email;
+  console.log(verifyCode);
   var { data } = await VerifySendApi(verifyCode);
   if (data.message == "ok") {
     alert("已经请求发送邮件");
@@ -64,6 +66,8 @@ async function vertifyCode() {
 </script>
 
 <template>
+  <!-- {{ UserData }}
+  {{ verifyCode }} -->
   <div style="width: 70%; margin: 0 auto; padding-top: 20em; padding-bottom: 20em">
     <div class="ui stackable centered column grid">
       <div class="centered row">
@@ -132,7 +136,7 @@ async function vertifyCode() {
                 <button
                   style="float: right"
                   class="ui inverted blue button"
-                  @click.native="vertifyCode"
+                  @click.native="vertifyCodeClick"
                 >
                   发送邮箱验证码
                 </button>

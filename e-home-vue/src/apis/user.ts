@@ -20,7 +20,7 @@ export const RegisterApi = async (registerInfo: IRegisterInfo) => {
 export const VerifySendApi = async (verifyInfo: IVerifyInfo) => {
     return await request<IRequest>({
         url: '/api/user/vertify',
-        method: 'GET',
+        method: 'POST',
         data: verifyInfo
     })
 }

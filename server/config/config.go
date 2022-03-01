@@ -34,6 +34,7 @@ type ConfigData struct {
 	Server   server
 	Jwt      jwt
 	Email    email
+	Env      string
 }
 
 var Config ConfigData
@@ -50,6 +51,7 @@ func ConfigInit() {
 		log.Fatalln("Config Error", err)
 	}
 	Config = ConfigData{
+		Env: config.GetString("database.env"),
 		Database: database{
 			Host:     config.GetString("database.host"),
 			User:     config.GetString("database.user"),
