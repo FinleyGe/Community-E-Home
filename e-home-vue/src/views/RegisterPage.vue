@@ -2,42 +2,63 @@
 import { computed, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import { isPwdValid } from "../utilities/valid";
+import { IRegisterInfo } from "../types/user";
+import { RegisterApi } from "../apis/user";
+// const UserData = reactive({
+//   name: "",
+//   pwd: "",
+//   phone: "",
+//   email: "",
+//   type: 0,
+//   code: "",
+// });
 
-const UserData = reactive({
+const UserData: IRegisterInfo = reactive({
   name: "",
   pwd: "",
   phone: "",
   email: "",
   type: 0,
+  code: "",
 });
-
 const pwdRepeat = ref("");
 const isPwdSame = ref(false);
 const pwdValid = ref(false);
+
 const router = useRouter();
-function registerClick() {
+document.title = "注册";
+async function registerClick() {
   if (!(isPwdSame.value && pwdValid.value)) {
     alert("请重新检查您的密码！");
   } else {
-    // register(UserData);
+    var { data } = await RegisterApi(UserData);
+    if (data.message == "ok") {
+      alert("ok");
+    }
   }
 }
 function CheckPwd() {
   isPwdSame.value = UserData.pwd == pwdRepeat.value;
   pwdValid.value = isPwdValid(UserData.pwd);
 }
-function CheckInfo() {}
+// function CheckInfo() {}
 
 function cancelClick() {
   router.push("/index");
 }
+
+function loginClicked() {
+  router.push("/login");
+}
+
+function vertifyCode() {}
 </script>
 
 <template>
   <div style="width: 70%; margin: 0 auto; padding-top: 20em; padding-bottom: 20em">
     <div class="ui stackable centered column grid">
       <div class="centered row">
-        <div class="six wide column">
+        <div class="eight wide column">
           <div
             style="padding-bottom: 5em; background-color: rgba(245, 245, 245, 0.5)"
             class="ui segment"
@@ -89,6 +110,25 @@ function cancelClick() {
                   placeholder="请输入邮箱"
                 />
               </div>
+
+              <div class="field">
+                <label for="vertify-code">验证码：</label>
+                <input
+                  v-model="UserData.code"
+                  type="text"
+                  name="vertify-code"
+                  id="vertify-code"
+                  placeholder="请输入验证码"
+                />
+                <button
+                  style="float: right"
+                  class="ui inverted blue button"
+                  @click.native="vertifyCode"
+                >
+                  发送邮箱验证码
+                </button>
+              </div>
+
               <div class="field">
                 <label for="phone">手机号码：</label>
                 <input
@@ -119,9 +159,16 @@ function cancelClick() {
             <button
               style="float: right"
               class="ui inverted blue button"
+              @click.native="loginClicked"
+            >
+              已有帐号
+            </button>
+            <button
+              style="float: left"
+              class="ui inverted red button"
               @click.native="cancelClick"
             >
-              取消
+              返回
             </button>
           </div>
         </div>

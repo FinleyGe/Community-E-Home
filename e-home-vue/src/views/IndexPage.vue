@@ -1,14 +1,18 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useUserStore } from "../stores/user";
+import { NLayout, NLayoutHeader, NLayoutFooter, NSpace } from "naive-ui";
 const store = useUserStore();
-// const isLogin = ref(store.isLoggedIn);
-const jwt = ref(store.jwt);
+document.title = "社区 E 家";
 </script>
 
 <template>
-  {{ store }}
-  <!-- <p>isLogin: {{ isLogin ? "logged" : "not logged" }}</p> -->
-  <!-- <p>jwt: {{ jwt }}</p> -->
+  <n-space vertical size="large">
+    <n-layout>
+      <n-layout-header> </n-layout-header>
+      <n-layout-content content-style="padding: 24px;"> {{ store }} </n-layout-content>
+      <n-layout-footer>成府路</n-layout-footer>
+    </n-layout>
+  </n-space>
 </template>
-<script></script>
+<style></style>

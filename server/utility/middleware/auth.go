@@ -12,33 +12,21 @@ import (
 func Auth(c *gin.Context) {
 	jwtToken := c.GetHeader("Authorization")
 	if jwtToken == "" {
-		// there is not an authorization header
-		c.JSON(401, gin.H{
-			"status": "unauthorized",
-		})
-		c.Abort()
+
+		utility.ResponseError(c, "Unauthorized")
 		return
 	} else {
-		// id, err := strconv.Atoi(utility.ParseToken(jwtToken))
-		// if err != nil {
-		// 	c.JSON(500, gin.H{
-		// 		"status": "Jwt Error",
-		// 	})
-		// }
+
 		id, err := utility.ParseToken(jwtToken)
 		if err != nil {
-			c.JSON(400, gin.H{
-				"status": "Jwt Error",
-			})
+			utility.ResponseError(c, "Jwt Error")
 			c.Abort()
 			return
 		}
 		user := model.User{}
 		database.DB.Where("id = ?", id).First(&user)
 		if !user.Valid {
-			c.JSON(400, gin.H{
-				"status": "Email invalid",
-			})
+			utility.ResponseError(c, "Email is invalid")
 			c.Abort()
 			return
 		} else {
@@ -50,21 +38,17 @@ func Auth(c *gin.Context) {
 }
 
 func EmailVertify(c *gin.Context) {
-
+	// Email 认证专用auth middleware
 	jwtToken := c.GetHeader("Authorization")
 
 	if jwtToken == "" {
-		c.JSON(401, gin.H{
-			"status": "unauthorized",
-		})
+		utility.ResponseError(c, "Unauthorized")
 		c.Abort()
 		return
 	} else {
 		id, err := utility.ParseToken(jwtToken)
 		if err != nil {
-			c.JSON(400, gin.H{
-				"status": "Jwt Error",
-			})
+			utility.ResponseError(c, "Jwt Error")
 			c.Abort()
 			return
 		}

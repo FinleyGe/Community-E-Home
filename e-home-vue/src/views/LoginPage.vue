@@ -13,7 +13,7 @@ const loginInfo: ILoginInfo = reactive({
   method: computed(() => isEmailOrPhone(loginInfo.emailPhone)),
   pwd: "",
 });
-
+document.title = "登录";
 function RegisterClicked() {
   router.push("/register");
   // console.log(userStore.jwt);
@@ -31,8 +31,13 @@ async function LoginClicked() {
     } else {
       alert("登录成功");
       userStore.jwt = data.jwt;
+      router.push("/index");
     }
   }
+}
+
+function cancelClick() {
+  router.push("/index");
 }
 </script>
 
@@ -80,7 +85,14 @@ async function LoginClicked() {
                 style="float: right"
                 @click.native="RegisterClicked"
               >
-                注册
+                没有帐号
+              </button>
+              <button
+                class="ui inverted red button"
+                style="float: left"
+                @click.native="cancelClick"
+              >
+                返回
               </button>
             </form>
             <!-- jwt:
