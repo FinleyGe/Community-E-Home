@@ -18,3 +18,7 @@ func ResponseError(c *gin.Context, message string) {
 func ResponseSuccess(c *gin.Context, data gin.H) {
 	response(c, 200, "ok", data)
 }
+
+func ResponseServerError(c *gin.Context, message string) {
+	response(c, 500, message, nil)
+}

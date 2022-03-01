@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import router from './routes'
+import router from './routes/routes'
 import 'animate.css/animate.min.css'
 import { createPinia } from 'pinia'
 

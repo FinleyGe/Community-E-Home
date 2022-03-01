@@ -40,30 +40,19 @@ func Login(c *gin.Context) {
 	}
 
 	if (model.User{} == user) {
-		// c.JSON(406, gin.H{
-		// 	"status": -1, // not found
-		// })
 		utility.ResponseError(c, "User not found")
 		return
 	} else {
 		if user.Pwd == api.Pwd {
-			// Get JWT
 			jwtData := utility.JwtData{
 				ID: strconv.Itoa(int(user.Id)),
 			}
 			jwt := utility.GenerateStandardJwt(&jwtData)
-			// c.JSON(200, gin.H{
-			// 	"status": 0,   // OK
-			// 	"jwt":    jwt, //
-			// })
 			utility.ResponseSuccess(c, gin.H{
 				"jwt": jwt,
 			})
 			return
 		} else {
-			// c.JSON(406, gin.H{
-			// 	"status": -2, // pwd wrong
-			// })
 			utility.ResponseError(c, "Wrong Pwd")
 		}
 	}
@@ -80,10 +69,7 @@ func Register(c *gin.Context) {
 		First(&user)
 
 	if (user != model.User{}) {
-		c.JSON(406, gin.H{
-			// "status": -1, // exist
-			"message": "User exist", //
-		})
+		utility.ResponseError(c, "User exist")
 	} else {
 		user.Name = API.Name
 		user.Pwd = API.Pwd
@@ -94,15 +80,9 @@ func Register(c *gin.Context) {
 
 		e := database.DB.Create(&user)
 		if e.Error != nil {
-			c.JSON(500, gin.H{
-				// "status": -100, // other error
-				"message": "other error",
-			})
+			utility.ResponseError(c, "Other Error")
 		} else {
-			c.JSON(200, gin.H{
-				// "status": 0, //OK
-				"message": "OK",
-			})
+			utility.ResponseSuccess(c, nil)
 		}
 	}
 }
@@ -130,8 +110,7 @@ func UserInfo(c *gin.Context) {
 			"status": -100,
 		})
 	} else {
-		c.JSON(200, gin.H{
-			"status":     0,
+		utility.ResponseSuccess(c, gin.H{
 			"name":       user.Name,
 			"email":      user.Email,
 			"phone":      user.Phone,
@@ -154,9 +133,10 @@ func EditUserInfo(c *gin.Context) {
 	rawUser.Name = user.Name
 	rawUser.Phone = user.Phone
 	database.DB.Save(&rawUser)
-	c.JSON(200, gin.H{
-		"message": "ok",
-	})
+	// c.JSON(200, gin.H{
+	// 	"message": "ok",
+	// })
+	utility.ResponseSuccess(c, nil)
 }
 
 func UploadAvatar(c *gin.Context) {
@@ -164,13 +144,11 @@ func UploadAvatar(c *gin.Context) {
 	id, _ := c.Get("id")
 	if err := c.SaveUploadedFile(file, "../upload"+id.(string)); err != nil {
 		log.Fatalln("Save uploaded file error:", err)
-		c.JSON(500, gin.H{
-			"message": "server error",
-		})
+		utility.ResponseServerError(c, "Server Error")
 		return
 	}
 	database.DB.Model(model.User{}).Where("id = ?", id).Update("avatarUrl", "/upload/"+id.(string))
-	c.JSON(200, gin.H{
+	utility.ResponseSuccess(c, gin.H{
 		"avatar_url": "/upload/" + id.(string),
 	})
 }
@@ -185,9 +163,10 @@ func SendEmail(c *gin.Context) {
 	userEmail.VertifyCode = utility.SendEmail(user.Email)
 	userEmail.Uid = uint(id)
 	database.DB.Create(&userEmail)
-	c.JSON(200, gin.H{
-		"message": "Email Sent",
-	})
+	// c.JSON(200, gin.H{
+	// 	"message": "Email Sent",
+	// })
+	utility.ResponseSuccess(c, nil)
 }
 
 func VertifyEmail(c *gin.Context) {
