@@ -1,3 +1,4 @@
+env: "dev" # dev for development; pro for production
 database:
   host    : ""    # mysql 地址
   user    : ""    # mysql管理员用户

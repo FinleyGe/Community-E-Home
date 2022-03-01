@@ -77,11 +77,13 @@ func SendEmail(target string) string {
 	m.SetHeader(`Subject`, mailConf.Title)
 	m.SetBody(`text/html`, html)
 	// m.Attach("./Dockerfile") //添加附件
-	err := gomail.NewDialer(mailConf.SMTPAddr, mailConf.SMTPPort, mailConf.Sender, mailConf.SPassword).DialAndSend(m)
-	if err != nil {
-		log.Fatalf("Send Email Fail, %s", err.Error())
-		return ""
+	if config.Config.Env == "pro" {
+		err := gomail.NewDialer(mailConf.SMTPAddr, mailConf.SMTPPort, mailConf.Sender, mailConf.SPassword).DialAndSend(m)
+		if err != nil {
+			log.Fatalf("Send Email Fail, %s", err.Error())
+			return ""
+		}
+		log.Printf("Send Email Success")
 	}
-	log.Printf("Send Email Success")
 	return vcode
 }
