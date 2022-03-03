@@ -1,5 +1,7 @@
 import request from '../utilities/request'
-import { ILoginInfo, ILoginRequest, IRegisterInfo, IRequest, IVerifyInfo } from '../types/user'
+import {    ILoginInfo, ILoginRequest, 
+            IRegisterInfo, IRequest, 
+            IVerifyInfo, IUserInfo } from '../types/user'
 export const LoginApi = async (loginInfo: ILoginInfo) => {
     const res = await request<ILoginRequest>({
         url: '/api/login',
@@ -22,5 +24,25 @@ export const VerifySendApi = async (verifyInfo: IVerifyInfo) => {
         url: '/api/user/vertify',
         method: 'POST',
         data: verifyInfo
+    })
+}
+export const GetUserInfoApi = async (jwt: string) => {
+    return await request<IUserInfo>({
+        url: '/api/user/info',
+        method: 'GET',
+        headers:{
+            Authorization: jwt,
+        },
+    })
+}
+
+export const UpdateUserInfoApi = async (userinfo:IUserInfo, jwt: string) => {
+    return await request<IRequest>({
+        url: '/api/user/info',
+        method: 'POST',
+        headers:{
+            Authorization: jwt
+        },
+        data: userinfo,
     })
 }

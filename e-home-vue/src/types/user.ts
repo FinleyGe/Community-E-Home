@@ -18,9 +18,20 @@ export interface IRegisterInfo {
 }
 
 export interface IRequest {
-    "message": string;
+    message: string;
 }
 
 export interface IVerifyInfo {
     email: string;
+}
+
+export interface IUserInfo {
+    email: string;
+    name: string;
+    type: number;
+    gender: number;
+    province: string;
+    city: string;
+    phone: string;
+    profile: string;
 }

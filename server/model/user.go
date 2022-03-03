@@ -12,6 +12,12 @@ type User struct {
 	// 1 for elder
 	// 2 for Admin
 	Profile string
+	Gender  uint8 `json:"gender"`
+	// 0 for male
+	// 1 for female
+	// 2 for others
+	Province string `json:"province"`
+	City     string `json:"city"`
 }
 
 type UserTask struct {
