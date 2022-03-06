@@ -4,7 +4,7 @@ import { useRouter } from "vue-router";
 import { isEmailOrPhone } from "../utilities/valid";
 import { useUserStore } from "../stores/user";
 import { ILoginInfo } from "../types/user";
-import { LoginApi } from "../apis/user";
+import { GetUserInfoApi, LoginApi } from "../apis/user";
 const router = useRouter();
 const userStore = useUserStore();
 
@@ -31,6 +31,9 @@ async function LoginClicked() {
     } else {
       alert("登录成功");
       userStore.jwt = data.jwt;
+      userStore.isLogin = true;
+      var userData = await GetUserInfoApi(userStore.jwt);
+      userStore.data = userData.data;
       router.push("/index");
     }
   }

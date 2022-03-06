@@ -136,14 +136,22 @@ func EditUserInfo(c *gin.Context) {
 	id, _ := c.Get("id")
 	rawUser := model.User{}
 	database.DB.Where("id = ?", id).First(&rawUser)
+	if (rawUser == model.User{}) {
+		utility.ResponseError(c, "Server Error!")
+		return
+	}
 	rawUser.Profile = user.Profile
 	rawUser.Email = user.Email
 	rawUser.Name = user.Name
 	rawUser.Phone = user.Phone
-	database.DB.Save(&rawUser)
-	// c.JSON(200, gin.H{
-	// 	"message": "ok",
-	// })
+	rawUser.Gender = user.Gender
+	rawUser.Province = user.Province
+	rawUser.City = user.City
+	aff := database.DB.Save(&rawUser)
+	if aff.Statement.RowsAffected == 0 {
+		utility.ResponseError(c, "Server Error!")
+		return
+	}
 	utility.ResponseSuccess(c, nil)
 }
 
